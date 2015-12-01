@@ -63,7 +63,7 @@
                                                 <option value="PNG">Penang</option>
                                             </select>
 
-                                                <label><input type="checkbox" name="terms"> I agree with the <a href="term-condition.html">Terms and Conditions</a>.</label>
+                                                <label><input type="checkbox" name="terms"> I agree with the <a href="termConditions.jsp">Terms and Conditions</a>.</label>
                                                 <input class="btn btn-lg btn-success btn-block" type="submit" value="Register">
                                             </div>
                                         </div>

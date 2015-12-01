@@ -1,0 +1,16 @@
+SMAP
+managePackage_jsp.java
+JSP
+*S JSP
+*F
++ 0 managePackage.jsp
+admin/managePackage.jsp
+*L
+1,4:44
+5:48,3
+6,3:51
+9:54,3
+10,325:57
+335:382,3
+336,109:385
+*E
