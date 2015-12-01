@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">E-Tourism</a>
+                <a class="navbar-brand" href="index.jsp">E-Tourism</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -22,8 +22,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nizul Zaim <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Edit Account</a></li>
-                            <li><a href="#">Transaction History</a></li>
-                            <li><a href="#">View Order</a></li>
+                            <li><a href="transactionHistory.jsp">Transaction History</a></li>
+                            <li><a href="myOrder.jsp">View Order</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">Logout</a></li>
                         </ul>

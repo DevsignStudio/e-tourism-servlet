@@ -8,15 +8,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">E-Tourism</a>
+                <a class="navbar-brand" href="index.jsp">E-Tourism</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Manage Users</a></li>
-                    <li><a href="#">Manage Packages</a></li>
-                    <li><a href="#">Manage Orders</a></li>
+                    <li><a href="tableUser.jsp">Manage Users</a></li>
+                    <li><a href="managePackage.jsp">Manage Packages</a></li>
+                    <li><a href="tableOrder.jsp">Manage Orders</a></li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

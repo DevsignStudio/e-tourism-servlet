@@ -110,7 +110,7 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                                <option value=\"PNG\">Penang</option>\n");
       out.write("                                            </select>\n");
       out.write("\n");
-      out.write("                                                <label><input type=\"checkbox\" name=\"terms\"> I agree with the <a href=\"term-condition.html\">Terms and Conditions</a>.</label>\n");
+      out.write("                                                <label><input type=\"checkbox\" name=\"terms\"> I agree with the <a href=\"termConditions.jsp\">Terms and Conditions</a>.</label>\n");
       out.write("                                                <input class=\"btn btn-lg btn-success btn-block\" type=\"submit\" value=\"Register\">\n");
       out.write("                                            </div>\n");
       out.write("                                        </div>\n");

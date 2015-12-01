@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <jsp:include page="../head.jsp" />
+    
 </head>
     
 <body>
@@ -83,7 +84,7 @@
                         <div class="form-group">
                             <div class="col-sm-9">
                                 <div class="thumbnail-package">
-                                    <img src="img/langkawi.jpg" />
+                                    <img src="../img/langkawe.jpg" />
                                 </div>
                             </div>
                         </div>
@@ -308,7 +309,7 @@
                             <div class="form-group">
                                 <div class="col-sm-9">
                                     <div class="thumbnail-package">
-                                        <img src="img/langkawi.jpg" />
+                                        <img src="../img/langkawi.jpg" />
                                     </div>
                                 </div>
                             </div>
@@ -438,6 +439,7 @@
         $('.img-picker').imagePicker({name: 'images-picker'});
     })
     </script>
+    <script src="masonry.pkgd.min.js"></script>
     
 </body>
 </html>
