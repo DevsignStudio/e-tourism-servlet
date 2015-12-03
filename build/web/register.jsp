@@ -13,7 +13,7 @@
                         <h3 class="panel-title">Please Enter Register Form</h3>
                     </div>
                     <div class="panel-body">
-                        <form accept-charset="UTF-8" role="form">
+                        <form accept-charset="UTF-8" role="form" action="registerServlet" method="post">
                             <fieldset>
                                 <div class="row">
                                     <div class="col-xs-6 ">

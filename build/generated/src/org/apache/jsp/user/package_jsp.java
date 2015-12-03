@@ -58,7 +58,7 @@ public final class package_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <div class=\"row\" id=\"thumbnail-box\">\n");
       out.write("            <div class=\"col-sm-6 col-md-4\">\n");
       out.write("                <div class=\"thumbnail\" >\n");
-      out.write("                    <img src=\"img/langkawe.jpg\" class=\"img-responsive\">\n");
+      out.write("                    <img src=\"../img/langkawe.jpg\" class=\"img-responsive\">\n");
       out.write("                    <div class=\"caption\">\n");
       out.write("                        <div class=\"row\">\n");
       out.write("                            <div class=\"col-md-6 col-xs-6\">\n");
@@ -80,7 +80,7 @@ public final class package_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        </ul>\n");
       out.write("                        <div class=\"row\">\n");
       out.write("                            <div class=\"col-md-6\">\n");
-      out.write("                                <a href=\"buy-package.html\" class=\"btn btn-success btn-product\" ><span class=\"glyphicon glyphicon-shopping-cart\"></span> Buy </a>\n");
+      out.write("                                <a href=\"buyPackage.jsp\" class=\"btn btn-success btn-product\" ><span class=\"glyphicon glyphicon-shopping-cart\"></span> Buy </a>\n");
       out.write("                            </div>\n");
       out.write("                        </div>\n");
       out.write("\n");
@@ -93,7 +93,7 @@ public final class package_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("            <div class=\"col-sm-6 col-md-4\">\n");
       out.write("                <div class=\"thumbnail\" >\n");
-      out.write("                    <img src=\"img/sabah.jpg\" class=\"img-responsive\">\n");
+      out.write("                    <img src=\"../img/sabah.jpg\" class=\"img-responsive\">\n");
       out.write("                    <div class=\"caption\">\n");
       out.write("                        <div class=\"row\">\n");
       out.write("                            <div class=\"col-md-6 col-xs-6\">\n");
@@ -124,7 +124,7 @@ public final class package_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("            <div class=\"col-sm-6 col-md-4\">\n");
       out.write("                <div class=\"thumbnail\" >\n");
-      out.write("                    <img src=\"img/sabah.jpg\" class=\"img-responsive\">\n");
+      out.write("                    <img src=\"../img/sabah.jpg\" class=\"img-responsive\">\n");
       out.write("                    <div class=\"caption\">\n");
       out.write("                        <div class=\"row\">\n");
       out.write("                            <div class=\"col-md-6 col-xs-6\">\n");
@@ -156,7 +156,7 @@ public final class package_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("            <div class=\"col-sm-6 col-md-4\">\n");
       out.write("                <div class=\"thumbnail\" >\n");
-      out.write("                    <img src=\"img/penang.jpg\" class=\"img-responsive\">\n");
+      out.write("                    <img src=\"../img/penang.jpg\" class=\"img-responsive\">\n");
       out.write("                    <div class=\"caption\">\n");
       out.write("                        <div class=\"row\">\n");
       out.write("                            <div class=\"col-md-6 col-xs-6\">\n");
@@ -197,7 +197,7 @@ public final class package_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "../script.jsp", out, false);
       out.write("\n");
-      out.write("    <script src=\"js/masonry.pkgd.min.js\"></script>\n");
+      out.write("    <script src=\"../js/masonry.pkgd.min.js\"></script>\n");
       out.write("    <script>\n");
       out.write("\n");
       out.write("$(document).ready( function() {\n");
