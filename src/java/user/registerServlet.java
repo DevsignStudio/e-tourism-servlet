@@ -69,6 +69,16 @@ public class registerServlet extends HttpServlet {
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String gender = request.getParameter("gender");
+        String address = request.getParameter("address");
+        String zipCode = request.getParameter("zip");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        
+        
         int userType = 2;
 //        String email = request.getParameter("email");
         int scs = 0;
@@ -79,6 +89,14 @@ public class registerServlet extends HttpServlet {
             PreparedStatement preparedStatement = jdbcUtility.psInsertClient();
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, firstName);
+            preparedStatement.setString(5, lastName);
+            preparedStatement.setString(6, gender);
+            preparedStatement.setString(7, address);
+            preparedStatement.setString(8, zipCode);
+            preparedStatement.setString(9, city);
+            preparedStatement.setString(10, state);
             
             
             scs = preparedStatement.executeUpdate();

@@ -21,7 +21,7 @@
                                             <input class="form-control" placeholder="First Name" name="firstName" type="text">
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control" placeholder="Last Name" name="lasttName" type="text">
+                                            <input class="form-control" placeholder="Last Name" name="lastName" type="text">
                                         </div>
                                         <div class="form-group">
                                             <input class="form-control" placeholder="Email" name="email" type="text">
@@ -41,8 +41,8 @@
                                         <div class="form-group">
                                             <select name="gender" class="form-control" >
                                                 <option value="">SetGender</option>
-                                                <option value="female">Female</option>
-                                                <option value="male">Male</option>
+                                                <option value="1">Female</option>
+                                                <option value="0">Male</option>
                                             </select>
                                         </div>
                                         <div class="form-group">

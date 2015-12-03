@@ -120,7 +120,7 @@ public class JDBCUtility
             
             
             //insert user
-            String sqlInsertClient = "INSERT INTO user(username, password, userType) VALUES(?, ?, 2);";
+            String sqlInsertClient = "INSERT INTO user(username, password, userType, email, firstName, lastName, gender, address, zipCode, city, state ) VALUES(?, ?, 2, ?, ?, ?, ?, ?, ?, ?, ?);";
             psInsertClient = con.prepareStatement(sqlInsertClient);
             
        } catch (SQLException ex) {
