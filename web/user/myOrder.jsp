@@ -28,7 +28,7 @@
                         <td>RM 990.00</td>
                         <td><span class="label label-warning">Payment Overdue</span></td>
                         <td>11/12/2015</td>
-                        <td class="text-center"><a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Cancel </a> </td>
+                        <td class="text-center"><a href="#" class="btn btn-danger btn-xs" ><span class="glyphicon glyphicon-remove"></span> Cancel </a> </td>
                     </tr>
                     <tr>
                         <td>2</td>
@@ -188,6 +188,8 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    
+    
 
 
 

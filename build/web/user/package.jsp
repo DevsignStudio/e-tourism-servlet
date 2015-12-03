@@ -148,7 +148,7 @@
 
 
     <jsp:include page="../script.jsp" />
-    <script src="js/masonry.pkgd.min.js"></script>
+    <script src="../js/masonry.pkgd.min.js"></script>
     <script>
 
 $(document).ready( function() {

@@ -60,7 +60,7 @@ public final class register_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <h3 class=\"panel-title\">Please Enter Register Form</h3>\n");
       out.write("                    </div>\n");
       out.write("                    <div class=\"panel-body\">\n");
-      out.write("                        <form accept-charset=\"UTF-8\" role=\"form\">\n");
+      out.write("                        <form accept-charset=\"UTF-8\" role=\"form\" action=\"registerServlet\" method=\"post\">\n");
       out.write("                            <fieldset>\n");
       out.write("                                <div class=\"row\">\n");
       out.write("                                    <div class=\"col-xs-6 \">\n");
