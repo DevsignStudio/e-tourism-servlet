@@ -97,30 +97,30 @@ public class JDBCUtility
    public void prepareSQLStatement() throws SQLException
    {
        try {
-           //select all student
-            String sqlSelectAllStudent = "SELECT * FROM student";
-            psSelectAllStudent = con.prepareStatement(sqlSelectAllStudent);
- 
-            //select student with matriks = ?
-            String sqlSelectStudentViaMatriks = "SELECT * FROM student where matriks = ?";
-            psSelectStudentViaMatriks = con.prepareStatement(sqlSelectStudentViaMatriks);
- 
-            //insert student
-            String sqlInsertStudent = "INSERT INTO student(matriks, name, ic, age) VALUES(?, ?, ?, ?)";
-            psInsertStudent = con.prepareStatement(sqlInsertStudent);
-            
- 
-            //update student name via matriks
-            String sqlUpdateStudentNameViaMatriks = "UPDATE student SET name = ?, ic = ?, age = ? WHERE matriks = ?"; 
-            psUpdateStudentNameViaMatriks = con.prepareStatement(sqlUpdateStudentNameViaMatriks);
- 
-            //delete student via matriks
-            String sqlDeleteStudentViaMatriks = "DELETE FROM student WHERE matriks = ?"; 
-            psDeleteStudentViaMatriks = con.prepareStatement(sqlDeleteStudentViaMatriks);
+//           //select all student
+//            String sqlSelectAllStudent = "SELECT * FROM student";
+//            psSelectAllStudent = con.prepareStatement(sqlSelectAllStudent);
+// 
+//            //select student with matriks = ?
+//            String sqlSelectStudentViaMatriks = "SELECT * FROM student where matriks = ?";
+//            psSelectStudentViaMatriks = con.prepareStatement(sqlSelectStudentViaMatriks);
+// 
+//            //insert student
+//            String sqlInsertStudent = "INSERT INTO student(matriks, name, ic, age) VALUES(?, ?, ?, ?)";
+//            psInsertStudent = con.prepareStatement(sqlInsertStudent);
+//            
+// 
+//            //update student name via matriks
+//            String sqlUpdateStudentNameViaMatriks = "UPDATE student SET name = ?, ic = ?, age = ? WHERE matriks = ?"; 
+//            psUpdateStudentNameViaMatriks = con.prepareStatement(sqlUpdateStudentNameViaMatriks);
+// 
+//            //delete student via matriks
+//            String sqlDeleteStudentViaMatriks = "DELETE FROM student WHERE matriks = ?"; 
+//            psDeleteStudentViaMatriks = con.prepareStatement(sqlDeleteStudentViaMatriks);
             
             
             //insert user
-            String sqlInsertClient = "INSERT INTO user(username, password, userType) VALUES(?, ?, 2)";
+            String sqlInsertClient = "INSERT INTO user(username, password, userType) VALUES(?, ?, 2);";
             psInsertClient = con.prepareStatement(sqlInsertClient);
             
        } catch (SQLException ex) {
