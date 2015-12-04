@@ -2,15 +2,7 @@
 <%@page import="bean.User" %>
 
 <%
-  HttpSession ss = request.getSession(true);        
-                
-  Object  username = ss.getAttribute("username");  
-  User loginUser = new User();
-  if (username == null) {
-      response.sendRedirect(request.getContextPath()); 
-  } else {
-      loginUser = User.getUserFromUsername((String)username);
-  }
+  
   
   
     
