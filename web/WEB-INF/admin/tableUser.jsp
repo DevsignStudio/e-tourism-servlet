@@ -118,7 +118,16 @@ request.setAttribute("clients", clients);
                                         <input class="form-control" name="username" placeholder="Username" type="text" value="${client.getUsername()}"/>
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Gender</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="gender">
+                                            <option value="">Set Gender</option>
+                                            <option value="1" ${client.getGender() == 1 ? 'selected="selected"' : ''}>Male</option>
+                                            <option value="2" ${client.getGender() == 2 ? 'selected="selected"' : ''}>Female</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Street Address</label>
                                     <div class="col-sm-9">
@@ -146,9 +155,6 @@ request.setAttribute("clients", clients);
                                             <option value="JB" ${client.getState().equals('JB') ? 'selected="selected"' : ''}>Johor</option>
                                             <option value="KL" ${client.getState().equals('KL') ? 'selected="selected"' : ''}>Kuala Lumpur</option>
                                             <option value="PNG" ${client.getState().equals('PNG') ? 'selected="selected"' : ''}>Penang</option>
-
-
-
                                         </select>
                                     </div>
                                 </div>

@@ -83,7 +83,7 @@ public class UpdateClientServlet extends HttpServlet {
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, firstName);
             preparedStatement.setString(4, lastName);
-            preparedStatement.setString(5, "2");
+            preparedStatement.setString(5, gender);
             preparedStatement.setString(6, address);
             preparedStatement.setString(7, zipCode);
             preparedStatement.setString(8, city);
