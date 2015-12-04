@@ -21,9 +21,16 @@ import user.registerServlet;
  */
 public class User implements Serializable {
     private String username, password, email;
-    private int userType, gender, zipCode;
+    private int userType, gender, zipCode, id;
     private String firstName, lastName, address, city, state;
 
+    public int getID() {
+        return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
+    }
     /**
      * @return the username
      */
@@ -213,6 +220,7 @@ public class User implements Serializable {
                 while (rs.next())
                 {
                     user.setFirstName(rs.getString("firstName"));
+                    user.setID(Integer.parseInt(rs.getString("id")));
                     user.setLastName(rs.getString("lastName"));
                     user.setUsername(rs.getString("username"));
                     user.setEmail(rs.getString("email"));
