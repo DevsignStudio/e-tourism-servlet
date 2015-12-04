@@ -65,7 +65,7 @@ request.setAttribute("clients", clients);
                                         <span class="glyphicon glyphicon-edit"></span>
                                         Edit
                                     </a>
-                                    <a class="btn btn-danger btn-xs" href="#">
+                                    <a class="btn btn-danger btn-xs" href="<%= request.getContextPath() + "/admin/client-delete.jsp?id="%>${client.getID()}">
                                         <span class="glyphicon glyphicon-remove"></span>
                                         Del
                                     </a>

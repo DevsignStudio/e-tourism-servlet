@@ -303,6 +303,64 @@ public class User implements Serializable {
 
         return clients;
     }
+    
+    public static boolean deleteClient(int id) {
+        String driver = "com.mysql.jdbc.Driver";
+        JDBCUtility jdbcUtility;
+        Connection con;
+
+        String dbName = "etourism";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+        ResultSet rs;
+
+        User user = new User();
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+
+        try {
+                PreparedStatement preparedStatement = jdbcUtility.psDeleteClient();
+                preparedStatement.setString(1, ((Integer)id).toString());
+                preparedStatement.executeUpdate();
+
+
+            }
+        catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " +
+                                         ex.getSQLState ());
+                    System.out.println ("Message:  " +
+                                         ex.getMessage ());
+                    System.out.println ("Vendor:   " +
+                                         ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+                return false;
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+                return false;
+            }
+
+        return true;
+    }
 
 
 }

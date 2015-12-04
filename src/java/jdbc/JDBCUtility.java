@@ -4,7 +4,6 @@
  */
 package jdbc;
 
-import java.util.*;
 import java.sql.*;
 
 /**
@@ -30,7 +29,7 @@ public class JDBCUtility
    PreparedStatement psSelectUserExists = null;
    PreparedStatement psSelectUserExistsByEmail = null;
    PreparedStatement psUpdateClient = null;
-
+   PreparedStatement psDeleteClient = null;
    //use this constructor if using ConnectionPool
    public JDBCUtility()
    {
@@ -119,8 +118,8 @@ public class JDBCUtility
             
 //
 //            //delete student via matriks
-//            String sqlDeleteStudentViaMatriks = "DELETE FROM student WHERE matriks = ?";
-//            psDeleteStudentViaMatriks = con.prepareStatement(sqlDeleteStudentViaMatriks);
+            String sqlDeleteStudentViaMatriks = "DELETE FROM student WHERE matriks = ?";
+            psDeleteStudentViaMatriks = con.prepareStatement(sqlDeleteStudentViaMatriks);
 
 
             //insert user
@@ -139,6 +138,9 @@ public class JDBCUtility
             
             String sqlUpdateClient = "UPDATE user SET username = ?, email = ? ,firstname = ?, lastname = ?, gender = ?, address = ?, zipCode = ?, city = ?, state = ? WHERE id = ?";
             psUpdateClient = con.prepareStatement(sqlUpdateClient);
+            
+            String sqlDeleteClient= "DELETE FROM user WHERE id = ?";
+            psDeleteClient = con.prepareStatement(sqlDeleteClient);
 
        } catch (SQLException ex) {
           while (ex != null)
@@ -215,5 +217,10 @@ public class JDBCUtility
    public PreparedStatement psUpdateClient()
    {
       return this.psUpdateClient;
+   }
+   
+   public PreparedStatement psDeleteClient()
+   {
+      return this.psDeleteClient;
    }
 }
