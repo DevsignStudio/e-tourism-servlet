@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jdbc.JDBCUtility;
@@ -16,13 +17,13 @@ import user.registerServlet;
 
 /**
  *
- * @author MSI
+ * @author Nizul Zaim
  */
 public class User implements Serializable {
     private String username, password, email;
     private int userType, gender, zipCode;
     private String firstName, lastName, address, city, state;
-    
+
     /**
      * @return the username
      */
@@ -176,7 +177,7 @@ public class User implements Serializable {
     public void setState(String state) {
         this.state = state;
     }
-    
+
     public static User getUserFromUsername(String username) {
         String driver = "com.mysql.jdbc.Driver";
         JDBCUtility jdbcUtility;
@@ -187,7 +188,7 @@ public class User implements Serializable {
         String userName = "root";
         String password = "";
         ResultSet rs;
-        
+
         User user = new User();
 
         jdbcUtility = new JDBCUtility(driver,
@@ -202,15 +203,15 @@ public class User implements Serializable {
              Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
          }
         con = jdbcUtility.jdbcGetConnection();
-        
-        
+
+
         try {
                 PreparedStatement preparedStatement = jdbcUtility.psSelectUserExists();
                 preparedStatement.setString(1, username);
                 rs = preparedStatement.executeQuery();
 
-                while (rs.next()) 
-                {                
+                while (rs.next())
+                {
                     user.setFirstName(rs.getString("firstName"));
                     user.setLastName(rs.getString("lastName"));
                     user.setUsername(rs.getString("username"));
@@ -242,13 +243,58 @@ public class User implements Serializable {
             {
                 ex.printStackTrace ();
             }
-        
+
         return user;
     }
-    
+
     public String getFullname() {
         return this.getFirstName() + " " + this.getLastName();
     }
 
-    
+    public static ArrayList<User> getAllClient() {
+        String driver = "com.mysql.jdbc.Driver";
+        JDBCUtility jdbcUtility;
+        Connection con;
+
+        String dbName = "etourism";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+        ResultSet rs;
+
+        User user = new User();
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+        ArrayList clients = new ArrayList();
+        try {
+            rs = jdbcUtility.psSelectAllClient().executeQuery();
+
+            while (rs.next()) {
+                User client = User.getUserFromUsername(rs.getString("username"));
+                System.out.println(rs.getString("username"));
+                clients.add(client);
+
+                //out.println("<p>" + matriks + "</p>");
+            }
+        }
+        catch (SQLException ex)
+        {
+        }
+
+        return clients;
+    }
+
+
 }

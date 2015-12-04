@@ -41,6 +41,7 @@ public class AdminController extends HttpServlet {
                 
         String username = (String)ss.getAttribute("username");  
         
+        User.getAllClient();
         if (username == null) {
             response.sendRedirect(request.getContextPath() + "/login.jsp"); 
         } else {
