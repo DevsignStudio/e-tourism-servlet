@@ -1,12 +1,14 @@
+package user;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
 
 import bean.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Lili Madiha
  */
-@WebServlet(name = "UserController", urlPatterns = {"/user/*"})
-public class UserController extends HttpServlet {
+@WebServlet(urlPatterns = {"/admin/*"})
+public class AdminController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,19 +40,17 @@ public class UserController extends HttpServlet {
         HttpSession ss = request.getSession(true);        
                 
         String username = (String)ss.getAttribute("username");  
-        User loginUser = User.getUserFromUsername(username);
-        request.setAttribute("loginUser", loginUser);
-//        if (request.getPathInfo().equals("/")) {
-//            path = request.getServletPath() + "/index.jsp" ;
-//        }
-//        if (username == null) {
-//            response.sendRedirect(request.getContextPath()); 
-//        } else {
-//            loginUser = User.getUserFromUsername((String)username);
-//            sendPage(request, response, "/WEB-INF" + path);
-//        }
         
-        sendPage(request, response, "/WEB-INF" + path);
+        if (username == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp"); 
+        } else {
+            User loginUser = User.getUserFromUsername(username);
+            loginUser = User.getUserFromUsername((String)username);
+            request.setAttribute("loginUser", loginUser);
+            sendPage(request, response, "/WEB-INF" + path);
+        }
+        
+//        sendPage(request, response, "/WEB-INF" + path);
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException

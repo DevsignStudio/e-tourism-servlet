@@ -128,9 +128,9 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("userType", userType);
         
         if ( userType == 1 ) {
-            response.sendRedirect(request.getContextPath() + "/admin"); 
+            response.sendRedirect(request.getContextPath() + "/admin/"); 
         } else {
-            response.sendRedirect(request.getContextPath() + "/user"); 
+            response.sendRedirect(request.getContextPath() + "/user/"); 
         }
         
         

@@ -246,7 +246,9 @@ public class User implements Serializable {
         return user;
     }
     
-    
+    public String getFullname() {
+        return this.getFirstName() + " " + this.getLastName();
+    }
 
     
 }

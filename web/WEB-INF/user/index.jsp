@@ -18,7 +18,7 @@
 
 
 
-    <h1> <%= loginUser.getUsername() %></h1>
+    <h1> ${loginUser.getUsername()} </h1>
     <jsp:include page="../script.jsp" />
 
 </body>
