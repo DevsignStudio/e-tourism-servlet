@@ -3,22 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Github/e-tourism-servlet/web/user/userPanel.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/user/package.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/user/transactionHistory.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/termConditions.jsp</file>
+            <file>file:/D:/Github/e-tourism-servlet/src/java/user/registerServlet.java</file>
+            <file>file:/D:/Github/e-tourism-servlet/web/head.jsp</file>
+            <file>file:/D:/Github/e-tourism-servlet/web/login.jsp</file>
+            <file>file:/D:/Github/e-tourism-servlet/web/index.jsp</file>
+            <file>file:/D:/Github/e-tourism-servlet/src/java/user/LoginServlet.java</file>
+            <file>file:/D:/Github/e-tourism-servlet/src/java/bean/User.java</file>
             <file>file:/D:/Github/e-tourism-servlet/web/nav/user.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/admin/tableOrder.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/user/myOrder.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/admin/viewUser.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/user/buyPackage.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/admin/tableUser.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/nav/admin.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/template.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/admin/index.jsp</file>
             <file>file:/D:/Github/e-tourism-servlet/web/register.jsp</file>
             <file>file:/D:/Github/e-tourism-servlet/web/user/index.jsp</file>
-            <file>file:/D:/Github/e-tourism-servlet/web/admin/managePackage.jsp</file>
+            <file>file:/D:/Github/e-tourism-servlet/src/java/jdbc/JDBCUtility.java</file>
         </group>
     </open-files>
 </project-private>

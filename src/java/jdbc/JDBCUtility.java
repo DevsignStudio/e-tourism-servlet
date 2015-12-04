@@ -25,6 +25,10 @@ public class JDBCUtility
    PreparedStatement psUpdateStudentNameViaMatriks = null;
    PreparedStatement psDeleteStudentViaMatriks = null;
    PreparedStatement psInsertClient = null;
+   PreparedStatement psSelectClient = null;
+   PreparedStatement psSelectUserExists = null;
+   PreparedStatement psSelectUserExistsByEmail = null;
+
  
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -123,6 +127,15 @@ public class JDBCUtility
             String sqlInsertClient = "INSERT INTO user(username, password, userType, email, firstName, lastName, gender, address, zipCode, city, state ) VALUES(?, ?, 2, ?, ?, ?, ?, ?, ?, ?, ?);";
             psInsertClient = con.prepareStatement(sqlInsertClient);
             
+            //select user
+           
+            
+            String sqlQueryUserExists = "SELECT * FROM user WHERE username = ?";
+            psSelectUserExists =  con.prepareStatement(sqlQueryUserExists);
+            
+            String sqlQueryUserExistsByEmail = "SELECT * FROM user WHERE email = ?";
+            psSelectUserExistsByEmail =  con.prepareStatement(sqlQueryUserExistsByEmail);
+            
        } catch (SQLException ex) {
           while (ex != null)
             {
@@ -168,9 +181,25 @@ public class JDBCUtility
       return psDeleteStudentViaMatriks;
    } 
    
-   
+   // client
    public PreparedStatement psInsertClient()
    {
       return psInsertClient;
+   } 
+   
+   public PreparedStatement psSelectClient()
+   {
+      return psSelectClient;
+   } 
+   
+   
+   public PreparedStatement psSelectUserExists()
+   {
+      return this.psSelectUserExists;
+   } 
+   
+   public PreparedStatement psSelectUserExistsByEmail()
+   {
+      return this.psSelectUserExistsByEmail;
    } 
 }

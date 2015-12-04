@@ -9,7 +9,9 @@ package user;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import jdbc.JDBCUtility;
 /**
  *
@@ -69,6 +72,8 @@ public class registerServlet extends HttpServlet {
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String repassword = request.getParameter("re-Password");
+
         String email = request.getParameter("email");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -83,26 +88,76 @@ public class registerServlet extends HttpServlet {
 //        String email = request.getParameter("email");
         int scs = 0;
         
-              
+        ResultSet rs = null;
+        Boolean userExists = false;
+        Boolean errGet = false;
         
-        try {
-            PreparedStatement preparedStatement = jdbcUtility.psInsertClient();
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, firstName);
-            preparedStatement.setString(5, lastName);
-            preparedStatement.setString(6, gender);
-            preparedStatement.setString(7, address);
-            preparedStatement.setString(8, zipCode);
-            preparedStatement.setString(9, city);
-            preparedStatement.setString(10, state);
-            
-            
-            scs = preparedStatement.executeUpdate();
-            
+        Boolean result = isNullorEqual(new String[] {username, password, email, firstName, lastName, zipCode, address, city});
+        
+        if ( result ) {
+            HttpSession session = request.getSession(true);
+        
+            session.setAttribute("scs", "Please Enter All fields");
+            response.sendRedirect("register.jsp");
+                
+            errGet = true;
         }
         
+        if (!errGet) {
+            try {
+                PreparedStatement preparedStatement = jdbcUtility.psSelectUserExists();
+                preparedStatement.setString(1, username);
+                rs = preparedStatement.executeQuery();
+
+                while (rs.next()) 
+                {                
+                    userExists = true;
+                    errGet = true;
+                }
+
+            }
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " +
+                                         ex.getSQLState ());
+                    System.out.println ("Message:  " +
+                                         ex.getMessage ());
+                    System.out.println ("Vendor:   " +
+                                         ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+            }
+            finally {
+                if (userExists) {
+                    HttpSession session = request.getSession(true);
+
+                    session.setAttribute("scs", "Username Already Exists");
+                    response.sendRedirect("register.jsp");
+                }
+
+            }
+        }
+        
+        try {
+            rs = null;
+            PreparedStatement preparedStatement = jdbcUtility.psSelectUserExistsByEmail();
+            preparedStatement.setString(1, email);
+            rs = preparedStatement.executeQuery();
+                    
+            while (rs.next()) 
+            {                
+                userExists = true;
+                errGet = true;
+            }
+            
+        }
         catch (SQLException ex)
         {
             while (ex != null)
@@ -121,10 +176,108 @@ public class registerServlet extends HttpServlet {
         {
             ex.printStackTrace ();
         }
+        finally {
+            if (userExists) {
+                HttpSession session = request.getSession(true);
         
-        response.sendRedirect("?scs="+ scs);
-    }
+                session.setAttribute("scs", "Email Already Exists");
+                response.sendRedirect("register.jsp");
+            }
+            
+        }
+        
+        
+        
+        if (!errGet) {
+            if (!password.equals(repassword)) {
+                HttpSession session = request.getSession(true);
+        
+                session.setAttribute("scs", "Password does not macth");
+                response.sendRedirect("register.jsp");
+                
+                errGet = true;
+            }
+  
+            
+        }
+        
+         if (!errGet) {
+            if (!isNumeric(zipCode)) {
+                HttpSession session = request.getSession(true);
+        
+                session.setAttribute("scs", "Zip Code must be Numeral");
+                response.sendRedirect("register.jsp");
+                
+                errGet = true;
+            }
+  
+            
+        }
+              
+        
+        if (!errGet) {
+            try {
+                PreparedStatement preparedStatement = jdbcUtility.psInsertClient();
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+                preparedStatement.setString(3, email);
+                preparedStatement.setString(4, firstName);
+                preparedStatement.setString(5, lastName);
+                preparedStatement.setString(6, gender);
+                preparedStatement.setString(7, address);
+                preparedStatement.setString(8, zipCode);
+                preparedStatement.setString(9, city);
+                preparedStatement.setString(10, state);
 
+
+                scs = preparedStatement.executeUpdate();
+
+            }
+
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " +
+                                         ex.getSQLState ());
+                    System.out.println ("Message:  " +
+                                         ex.getMessage ());
+                    System.out.println ("Vendor:   " +
+                                         ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+            }
+
+            response.sendRedirect("?scs="+ scs);
+        }
+    }
+    
+    public static boolean isNumeric(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        }
+        
+        catch(NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isNullorEqual(String... strArr) {
+        for ( String st : strArr ) {
+            if (st==null || st.equals("")) {
+                return true;
+            }
+             
+        }
+        return false;
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -164,4 +317,5 @@ public class registerServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
 }

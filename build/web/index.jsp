@@ -1,4 +1,30 @@
 
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="bean.User" %>
+
+<%@page import="javax.servlet.http.HttpSession" %>
+
+<%
+  HttpSession ss = request.getSession(true);        
+                
+  String scs = (String)ss.getAttribute("scs");  
+  String username = (String)ss.getAttribute("username"); 
+  
+  User loginUser = User.getUserFromUsername(username);
+  
+  if (username == null) {
+    if ( loginUser.getUserType() == 1 ) {
+        response.sendRedirect(request.getContextPath() + "/admin"); 
+    } else if ( loginUser.getUserType() == 2 ) {
+        response.sendRedirect(request.getContextPath() + "/user"); 
+    }
+  }
+  
+%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,7 +99,7 @@
                 <img class="img-circle img-responsive" src="img/langkawi-2.jpg" alt="Generic placeholder image" width="140" height="140">
                 <h2>Langkawi Package</h2>
                 <p>Langkawi, officially known as Langkawi the Jewel of Kedah is an archipelago of 104 islands in the Andaman Sea, some 30 km off the mainland coast of northwestern Malaysia.</p>
-                <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+                <p><a class="btn btn-default" href="#" role="button">View details Â»</a></p>
             </div>
             <!-- /.col-lg-4 -->
             <div class="col-lg-4">
@@ -81,14 +107,14 @@
                 <h2>Sabah Package</h2>
                 <p>Sabah is a Malaysian state occupying the northern part of Borneo. It's famed for its 4,095m-tall Mt. Kinabalu, the highest peak on the island, crowned with distinctive granite spires. Sabah is also known for its beaches, rainforest, coral
                     reefs and abundant endemic wildlife, much of it within parks and reserves. Offshore, the Sipadan and Mabul islands are noted diving destinations.</p>
-                <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+                <p><a class="btn btn-default" href="#" role="button">View details Â»</a></p>
             </div>
             <!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <img class="img-circle img-responsive" src="img/penang.jpg" alt="Generic placeholder image" width="140" height="140">
                 <h2>Penang Package</h2>
                 <p>Penang is a state in Malaysia located on the northwest coast of Peninsular Malaysia, by the Strait of Malacca. Penang state is bordered by Kedah in the north and east, and Perak in the south.</p>
-                <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+                <p><a class="btn btn-default" href="#" role="button">View details Â»</a></p>
             </div>
             <!-- /.col-lg-4 -->
         </div>
@@ -151,7 +177,7 @@
         <!-- FOOTER -->
         <footer>
             <p class="pull-right"><a href="#">Back to top</a></p>
-            <p>© 2015 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+            <p>Â© 2015 Company, Inc. Â· <a href="#">Privacy</a> Â· <a href="#">Terms</a></p>
         </footer>
 
     </div>

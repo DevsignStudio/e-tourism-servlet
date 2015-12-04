@@ -1,3 +1,15 @@
+
+<%@page import="javax.servlet.http.HttpSession" %>
+<%@page import="bean.User" %>
+
+<%
+  HttpSession ss = request.getSession(true);        
+                
+  String  username = (String)ss.getAttribute("username");  
+  
+  User loginUser = User.getUserFromUsername(username);
+    
+%>
 <nav class="navbar navbar-inverse navbar-custom navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -19,7 +31,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nizul Zaim <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= loginUser.getFirstName() + " " + loginUser.getLastName() %> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Edit Account</a></li>
                             <li><a href="transactionHistory.jsp">Transaction History</a></li>
