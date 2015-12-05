@@ -74,8 +74,11 @@
                                 </div>
                             </div>
                         </div>
-
-                        <a href="" class="btn btn-success btn-product" data-toggle="modal" data-target="#myEditData" ><span class="glyphicon glyphicon-shopping-cart"></span> Buy </a>
+                           
+                        <div class="col-md-offset-8">
+                            <a href="<%=request.getContextPath()%>/user/package.jsp" class="btn btn-primary" ><span class="glyphicon glyphicon-menu-left"></span> Back </a>                          
+                            <a href="" class="btn btn-success" data-toggle="modal" data-target="#myEditData" ><span class="glyphicon glyphicon-shopping-cart"></span> Buy </a>              
+                        </div>
 
                         <div class="modal fade" id="myEditData">
                             <div class="modal-dialog">
