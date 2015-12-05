@@ -102,7 +102,7 @@
 
     <jsp:include page="../script.jsp" />
     
-    <script src="<%=request.getContextPath()%>js/moment.js"></script>
+    <script src="<%=request.getContextPath()%>/js/moment.js"></script>
     <script >
     $(document).ready(function() {
 
