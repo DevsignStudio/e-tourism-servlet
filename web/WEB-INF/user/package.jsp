@@ -33,7 +33,7 @@
                         </ul>
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="buyPackage.jsp" class="btn btn-success btn-product" ><span class="glyphicon glyphicon-shopping-cart"></span> Buy </a>
+                                <a href="buyPackage.jsp" class="btn btn-success btn-product" ><span class="glyphicon glyphicon-shopping-cart"></span> Book </a>
                             </div>
                         </div>
 
@@ -68,7 +68,7 @@
                         </ul>
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="buyPackage.jsp" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy </a>
+                                <a href="buyPackage.jsp" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Book </a>
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                         </ul>
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="buyPackage.jsp" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy </a>
+                                <a href="buyPackage.jsp" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Book </a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                         </ul>
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="buyPackage.jsp" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Buy </a>
+                                <a href="buyPackage.jsp" class="btn btn-success btn-product"><span class="glyphicon glyphicon-shopping-cart"></span> Book </a>
                             </div>
                         </div>
                     </div>
