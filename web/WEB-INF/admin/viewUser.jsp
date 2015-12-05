@@ -1,3 +1,10 @@
+<%@ page import="bean.User" %>
+<%
+    User user = User.getUserFromUsername(request.getParameter("username"));
+    request.setAttribute("user", user);
+    
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,61 +17,62 @@
     <div class="container">
         <div class="row vertical-offset-200">
             <div class="col-md-8" style="margin-top: 70px">
+                <a href="<%= request.getContextPath() %>/admin/tableUser.jsp" class="btn btn-info">Back to User Table</a>
                 <h1>View User Details</h1>
                 <div class="well">
                     <form action="" class="form-horizontal">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">First Name: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">email@example.com</p>
+                                <p class="form-control-static">${user.getFirstName()}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Last Name: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">email@example.com</p>
+                                <p class="form-control-static">${user.getLastName()}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Email: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">email@example.com</p>
+                                <p class="form-control-static">${user.getEmail()}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Username: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">luxey93</p>
+                                <p class="form-control-static">${user.getUsername()}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Gender: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">Female</p>
+                                <p class="form-control-static">${user.getGender() == 1 ? 'Male' : 'Female'}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Street: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">Kampung</p>
+                                <p class="form-control-static">${user.getAddress()}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Zip Code: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">83400</p>
+                                <p class="form-control-static">${user.getZipCode()}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">City: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">Batu Pahat</p>
+                                <p class="form-control-static">${user.getCity()}</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">State: </label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">Johor</p>
+                                <p class="form-control-static">${user.getState().equals("JB") ? 'Johor Bharu' : ""}${user.getState().equals("KL") ? 'Kuala Lumpur' : ""}${user.getState().equals("PNG") ? 'Pulau Pinang' : ""}</p>
                             </div>
                         </div>
                     </form>

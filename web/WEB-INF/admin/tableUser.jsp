@@ -69,7 +69,7 @@ request.setAttribute("clients", clients);
                                         <span class="glyphicon glyphicon-remove"></span>
                                         Del
                                     </a>
-                                    <a class="btn btn-default btn-xs" href="viewUser.jsp">
+                                    <a class="btn btn-default btn-xs" href="viewUser.jsp?username=${client.getUsername()}">
                                         <span class="glyphicon glyphicon-info-sign"></span>
                                         View
                                     </a>
