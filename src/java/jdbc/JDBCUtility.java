@@ -33,6 +33,8 @@ public class JDBCUtility
    PreparedStatement psSelectPackageById = null;
    PreparedStatement psInsertPackage = null;
    PreparedStatement psSelectAllPackage = null;
+   PreparedStatement psInsertPackageAddon = null;
+   
    //use this constructor if using ConnectionPool
    public JDBCUtility()
    {
@@ -153,6 +155,9 @@ public class JDBCUtility
             
             String sqlQuerySelectAllPackage = "SELECT * FROM package";
             this.psSelectAllPackage =  con.prepareStatement(sqlQuerySelectAllPackage);
+            
+            String sqlInsertPackageAddon = "INSERT INTO package_add_on(package_id, name, price) VALUES(?, ?, ?);";
+            psInsertPackageAddon = con.prepareStatement(sqlInsertPackageAddon);
 
        } catch (SQLException ex) {
           while (ex != null)
@@ -226,5 +231,10 @@ public class JDBCUtility
    public PreparedStatement psSelectAllPackage()
    {
       return this.psSelectAllPackage;
+   }
+   
+   public PreparedStatement psInsertPackageAddon()
+   {
+      return this.psInsertPackageAddon;
    }
 }
