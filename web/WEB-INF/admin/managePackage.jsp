@@ -1,4 +1,13 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="bean.Package" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+  HttpSession ss = request.getSession(true);
 
+  String  scs = (String)ss.getAttribute("scs");
+  String  err = (String)ss.getAttribute("err");
+  
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +21,17 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 custyle" style="margin-top: 70px;">
+                <c:if test="${err != null}">
+                    <div class="alert alert-danger">
+                        ${err}
+                    </div>
+                </c:if>
+                <c:if test="${scs != null}">
+                    <div class="alert alert-success">
+                        ${scs}
+                    </div>
+                </c:if>
+                <% ss.removeAttribute("scs"); ss.removeAttribute("err"); %>
                 <h1>Manage Package</h1>
                 <table class="table table-striped custab">
                     <thead>
@@ -19,7 +39,6 @@
                             <th>ID</th>
                             <th>Package</th>
                             <th>Total Price</th>
-                            <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -28,7 +47,6 @@
                         <td>1</td>
                         <td><a href="" data-toggle="modal" data-target="#myModal1">Langkawi Package</a></td>
                         <td>RM 990.00</td>
-                        <td><span class="label label-warning">Payment Overdue</span></td>
                         <td class="text-center">
                             <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addOn"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
                             <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myView"><span class="glyphicon glyphicon-info-sign"></span> View </a>
@@ -39,7 +57,6 @@
                         <td>2</td>
                         <td><a href="" data-toggle="modal" data-target="#myModal2">Sabah Package</a></td>
                         <td>RM 440.00</td>
-                        <td><span class="label label-success">Success</span></td>
                         <td class="text-center">
                             <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
                             <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span> View </a>
@@ -49,7 +66,6 @@
                         <td>3</td>
                         <td><a href="" data-toggle="modal" data-target="#myModal3">Tioman Island Package</a></td>
                         <td>RM 220.00</td>
-                        <td><span class="label label-primary">In-Progress</span></td>
                         <td class="text-center">
                             <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
                             <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span> View </a>
@@ -59,7 +75,6 @@
                         <td>4</td>
                         <td><a href="" data-toggle="modal" data-target="#myModal4">Penang Package</a></td>
                         <td>RM 550.00</td>
-                        <td><span class="label label-danger">Cancel</span></td>
                         <td class="text-center">
                             <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
                             <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span> View </a>
@@ -219,7 +234,7 @@
     <div class="modal fade" id="myAdd">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="" class="form-horizontal">
+                <form action="<%= request.getContextPath() %>/admin/addPackage.jsp" method="POST" class="form-horizontal">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Add New Package</h4>
@@ -234,23 +249,23 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Package Name: </label>
                             <div class="col-sm-10">
-                                <input class="form-control" placeholder="Package Name" name="packageName" type="text">
+                                <input class="form-control" placeholder="Package Name" name="name" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Package Price: </label>
                             <div class="col-sm-10">
-                                <input class="form-control" placeholder="Package Price" name="packagePrice" type="text">
+                                <input class="form-control" placeholder="Package Price" name="price" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Package Description: </label>
                             <div class="col-sm-10" >
-                                <textarea class="form-control" placeholder="Package Description" name="#packageDescription1" id="packageDescription1" type="textarea" maxlength="300" rows="5"></textarea>
+                                <textarea class="form-control" placeholder="Package Description" name="description" id="packageDescription1" type="textarea" maxlength="300" rows="5"></textarea>
                                 <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
                             </div>
                         </div>
-
+                        <input type="hidden"  name="image" id="imageUpload"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -415,6 +430,8 @@
 
             // The preview image
             var picker_preview_image = $('<img src="'+src+'" class="img-responsive img-rounded" />');
+            
+            $("#imageUpload").val(src);
 
             // The remove image button
             var picker_preview_remove = $('<button class="btn btn-link"><small>Remove</small></button>');
@@ -439,7 +456,6 @@
         $('.img-picker').imagePicker({name: 'images-picker'});
     })
     </script>
-    <script src="masonry.pkgd.min.js"></script>
     
 </body>
 </html>
