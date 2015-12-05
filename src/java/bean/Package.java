@@ -237,4 +237,65 @@ public class Package {
         return pkgs;
     }
     
+    public boolean addPackageAddOn(String name, Double price) {
+        String driver = "com.mysql.jdbc.Driver";
+        JDBCUtility jdbcUtility;
+        Connection con;
+
+        String dbName = "etourism";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+        ResultSet rs;
+
+        Package pkg = null;
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+        
+        try {
+                PreparedStatement preparedStatement = jdbcUtility.psInsertPackageAddon();
+                preparedStatement.setString(1, ((Integer)this.id).toString());
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, price.toString());
+
+                preparedStatement.executeUpdate();
+                
+                return true;
+
+            }
+
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " +
+                                         ex.getSQLState ());
+                    System.out.println ("Message:  " +
+                                         ex.getMessage ());
+                    System.out.println ("Vendor:   " +
+                                         ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+            }
+        
+        return false;
+    }
+    
+    
 }

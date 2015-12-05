@@ -53,7 +53,7 @@
                             <td><a href="javascript:;" data-toggle="modal" data-target="#myModal${ctr.index}">${pkg.name}</a></td>
                             <td>RM ${pkg.price}</td>
                             <td class="text-center">
-                                <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addOn"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
+                                <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit${ctr.index}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addOn${ctr.index}"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
                                 <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal${ctr.index}"><span class="glyphicon glyphicon-info-sign"></span> View </a>
 
                             </td>
@@ -106,55 +106,83 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-                    
+        <!-- /.Edit Package Modal -->
+        <div class="modal fade" id="myEdit${ctr.index}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="" class="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit Package</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Name: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Package Name" name="packageName" type="text" value="${pkg.getName()}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Price: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Package Price" name="packagePrice" type="text" value="${pkg.getPrice()}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Description: </label>
+                                <div class="col-sm-10" >
+                                    <textarea class="form-control" placeholder="Package Description" name="#packageDescription" id="packageDescriptionn" type="textarea" maxlength="300" rows="5">${pkg.getDescription()}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- /.Add-On Modal -->
+        <div class="modal fade" id="addOn${ctr.index}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="<%= request.getContextPath() %>/admin/addPackageAddon.jsp" class="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Add Add-On</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Add-On Name: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Add-On Name" name="name" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Add-On Price: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Ad-On Price" name="price" type="text">
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" value="${pkg.id}" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+                
     </c:forEach>
     
 
-    <!-- /.Edit Package Modal -->
-    <div class="modal fade" id="myEdit">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="" class="form-horizontal">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Edit Package</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group" style="text-align: center; padding-left: 40%;">
-                            <div class="form-group col-sm-6" >
-                                <p>Change Images</p>
-                                <div class="img-picker"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Package Name: </label>
-                            <div class="col-sm-10">
-                                <input class="form-control" placeholder="Package Name" name="packageName" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Package Price: </label>
-                            <div class="col-sm-10">
-                                <input class="form-control" placeholder="Package Price" name="packagePrice" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Package Description: </label>
-                            <div class="col-sm-10" >
-                                <textarea class="form-control" placeholder="Package Description" name="#packageDescription" id="packageDescriptionn" type="textarea" maxlength="300" rows="5"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
+    
     <!-- /.Add New Package Modal -->
     <div class="modal fade" id="myAdd">
         <div class="modal-dialog">
@@ -201,39 +229,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- /.Add-On Modal -->
-    <div class="modal fade" id="addOn">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="" class="form-horizontal">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Add Add-On</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Add-On Name: </label>
-                            <div class="col-sm-10">
-                                <input class="form-control" placeholder="Add-On Name" name="addOnName" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Add-On Price: </label>
-                            <div class="col-sm-10">
-                                <input class="form-control" placeholder="Ad-On Price" name="addOnPrice" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
+    
     
       
     <jsp:include page="../script.jsp" />
