@@ -76,10 +76,8 @@
                         <form action="" class="form-horizontal">
 
                             <div class="form-group">
-                                <div class="col-sm-9">
-                                    <div class="thumbnail-package">
-                                        <img src="${pkg.getImage()}" />
-                                    </div>
+                                <div class="col-sm-12">
+                                    <img src="${pkg.getImage()}" class="img-responsive" style="width:100%;"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -104,7 +102,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <a href="" type="button" class="btn btn-primary">View Complete Details</a>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
