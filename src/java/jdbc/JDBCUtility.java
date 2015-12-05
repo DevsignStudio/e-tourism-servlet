@@ -30,6 +30,9 @@ public class JDBCUtility
    PreparedStatement psSelectUserExistsByEmail = null;
    PreparedStatement psUpdateClient = null;
    PreparedStatement psDeleteClient = null;
+   PreparedStatement psSelectPackageById = null;
+   PreparedStatement psInsertPackage = null;
+   PreparedStatement psSelectAllPackage = null;
    //use this constructor if using ConnectionPool
    public JDBCUtility()
    {
@@ -141,6 +144,15 @@ public class JDBCUtility
             
             String sqlDeleteClient= "DELETE FROM user WHERE id = ?";
             psDeleteClient = con.prepareStatement(sqlDeleteClient);
+            
+            String sqlSelectPackageById = "SELECT * FROM package WHERE id = ?";
+            this.psSelectPackageById =  con.prepareStatement(sqlSelectPackageById );
+            
+            String sqlInsertPackage = "INSERT INTO package(name, price, description, image ) VALUES(?, ?, ?, ?);";
+            psInsertPackage = con.prepareStatement(sqlInsertPackage);
+            
+            String sqlQuerySelectAllPackage = "SELECT * FROM package";
+            this.psSelectAllPackage =  con.prepareStatement(sqlQuerySelectAllPackage);
 
        } catch (SQLException ex) {
           while (ex != null)
@@ -162,30 +174,7 @@ public class JDBCUtility
 
    }
 
-   public PreparedStatement psSelectAllStudent()
-   {
-      return psSelectAllStudent;
-   }
 
-   public PreparedStatement psSelectStudentViaMatriks()
-   {
-      return psSelectStudentViaMatriks;
-   }
-
-   public PreparedStatement psInsertStudent()
-   {
-      return psInsertStudent;
-   }
-
-   public PreparedStatement psUpdateStudentNameViaMatriks()
-   {
-      return psUpdateStudentNameViaMatriks;
-   }
-
-   public PreparedStatement psDeleteStudentViaMatriks()
-   {
-      return psDeleteStudentViaMatriks;
-   }
 
    // client
    public PreparedStatement psInsertClient()
@@ -222,5 +211,20 @@ public class JDBCUtility
    public PreparedStatement psDeleteClient()
    {
       return this.psDeleteClient;
+   }
+   
+   public PreparedStatement psSelectPackageById()
+   {
+      return this.psSelectPackageById;
+   }
+   
+   public PreparedStatement psInsertPackage()
+   {
+      return psInsertPackage;
+   }
+   
+   public PreparedStatement psSelectAllPackage()
+   {
+      return this.psSelectAllPackage;
    }
 }
