@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.0.2
+-- version 4.4.14
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2015 at 05:43 PM
--- Server version: 10.0.17-MariaDB
--- PHP Version: 5.6.14
+-- Generation Time: Dec 05, 2015 at 08:39 AM
+-- Server version: 5.6.26
+-- PHP Version: 5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -26,34 +26,28 @@ SET time_zone = "+00:00";
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
   `username` varchar(20) DEFAULT NULL,
-  `password` varchar(10) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `userType` int(11) NOT NULL DEFAULT '2',
-  `email` varchar(20) DEFAULT NULL,
-  `firstName` varchar(50) DEFAULT NULL,
-  `lastName` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `firstName` text,
+  `lastName` text,
   `gender` int(11) DEFAULT NULL,
   `address` text,
   `zipCode` int(5) DEFAULT NULL,
   `city` text,
   `state` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `userType`, `email`, `firstName`, `lastName`, `gender`, `address`, `zipCode`, `city`, `state`) VALUES
-(1, 'a', 'a', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 'f', 'e', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'ed', '3', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'a', 'a', 2, 'a', 'a', NULL, 1, 'a', NULL, 'a', 'JB'),
-(5, 'a', '8', 2, 'a', 'a', NULL, 1, 'a', 1, 'a', 'JB'),
-(6, 'ff', '4', 2, 'bv', 'l', NULL, 0, 'd', 4, 'ff', 'JB'),
-(7, 'ff', '8', 2, 'bv', 'l', NULL, 0, 'd', 4, 'ff', 'JB'),
-(8, 't', '4', 2, 'gf', 'l', 'k', 1, 'f', 65, 'gf', 'JB');
+(1, 'admin', 'admin', 1, 'admin@devsign.my', 'Nizul', 'Zaim', 1, '8033, Alor Merah', 13800, 'Butterworth', 'Pulau Pinang'),
+(7, 'skynightz93', 'a', 2, 'skynightz93@gmail.com', 'Nizul', 'Zaim', 1, 'no 3-1', 53300, 'Kuala Lumpur', 'JB');
 
 --
 -- Indexes for dumped tables
@@ -74,7 +68,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
