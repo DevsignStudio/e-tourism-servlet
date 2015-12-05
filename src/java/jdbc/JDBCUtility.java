@@ -32,6 +32,7 @@ public class JDBCUtility
    PreparedStatement psDeleteClient = null;
    PreparedStatement psSelectPackageById = null;
    PreparedStatement psInsertPackage = null;
+   PreparedStatement psSelectAllPackage = null;
    //use this constructor if using ConnectionPool
    public JDBCUtility()
    {
@@ -144,11 +145,14 @@ public class JDBCUtility
             String sqlDeleteClient= "DELETE FROM user WHERE id = ?";
             psDeleteClient = con.prepareStatement(sqlDeleteClient);
             
-            String sqlSelectUserById = "SELECT * FROM package WHERE id = ?";
-            this.psSelectPackageById =  con.prepareStatement(sqlSelectUserById );
+            String sqlSelectPackageById = "SELECT * FROM package WHERE id = ?";
+            this.psSelectPackageById =  con.prepareStatement(sqlSelectPackageById );
             
             String sqlInsertPackage = "INSERT INTO package(name, price, description, image ) VALUES(?, ?, ?, ?);";
             psInsertPackage = con.prepareStatement(sqlInsertPackage);
+            
+            String sqlQuerySelectAllPackage = "SELECT * FROM package";
+            this.psSelectAllPackage =  con.prepareStatement(sqlQuerySelectAllPackage);
 
        } catch (SQLException ex) {
           while (ex != null)
@@ -217,5 +221,10 @@ public class JDBCUtility
    public PreparedStatement psInsertPackage()
    {
       return psInsertPackage;
+   }
+   
+   public PreparedStatement psSelectAllPackage()
+   {
+      return this.psSelectAllPackage;
    }
 }

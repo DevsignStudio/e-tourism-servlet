@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jdbc.JDBCUtility;
@@ -193,5 +194,47 @@ public class Package {
         return false;
     }
     
+    public static ArrayList<Package> allPackage() {
+        String driver = "com.mysql.jdbc.Driver";
+        JDBCUtility jdbcUtility;
+        Connection con;
+
+        String dbName = "etourism";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+        ResultSet rs;
+
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+        ArrayList pkgs = new ArrayList();
+        try {
+            rs = jdbcUtility.psSelectAllPackage().executeQuery();
+
+            while (rs.next()) {
+                Package pkg = Package.getPackageById(Integer.parseInt(rs.getString("id")));
+                pkgs.add(pkg);
+
+                //out.println("<p>" + matriks + "</p>");
+            }
+        }
+        catch (SQLException ex)
+        {
+        }
+
+        return pkgs;
+    }
     
 }
