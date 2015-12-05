@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2015 at 12:01 PM
+-- Generation Time: Dec 05, 2015 at 03:14 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -59,14 +59,15 @@ CREATE TABLE IF NOT EXISTS `package_add_on` (
   `package_id` int(11) NOT NULL,
   `name` text NOT NULL,
   `price` double NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `package_add_on`
 --
 
 INSERT INTO `package_add_on` (`id`, `package_id`, `name`, `price`) VALUES
-(1, 2, 'Personal Tour Guide', 130);
+(1, 2, 'Personal Tour Guide', 130),
+(2, 2, '5-start Hotel', 70);
 
 -- --------------------------------------------------------
 
@@ -133,7 +134,7 @@ ALTER TABLE `package`
 -- AUTO_INCREMENT for table `package_add_on`
 --
 ALTER TABLE `package_add_on`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user`
 --

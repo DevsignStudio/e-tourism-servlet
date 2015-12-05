@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="bean.Package" %>
+<%@ page import="bean.PackageAddon" %>
 <%@ page import="java.util.ArrayList" %>
 <%
     ArrayList<Package> pkgs = Package.allPackage();
@@ -81,23 +82,32 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Package Name: </label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-4 control-label">Package Name: </label>
+                                <div class="col-sm-8">
                                     <p class="form-control-static">${pkg.getName()}</p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Package Price: </label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-4 control-label">Package Price: </label>
+                                <div class="col-sm-8">
                                     <p class="form-control-static">RM ${pkg.getPrice()}</p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Package Description: </label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-4 control-label">Package Description: </label>
+                                <div class="col-sm-8">
                                     <p class="form-control-static">${pkg.getDescription()}</p>
                                 </div>
                             </div>
+                            
+                            <c:forEach items="${pkg.getAllAddon()}" var="pkgAO" varStatus="count">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Package Add On ${count.index+1}: </label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">${pkgAO.getName()} (RM ${pkgAO.getPrice()})</p>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </form>
                     </div>
                     <div class="modal-footer">
