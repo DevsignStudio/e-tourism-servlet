@@ -50,11 +50,11 @@
                     <c:forEach items="${pkgs}" var="pkg" varStatus="ctr">
                         <tr>
                             <td>${ctr.index +1}</td>
-                            <td><a href="javascript:;" data-toggle="modal" data-target="#myModal1">${pkg.name}</a></td>
+                            <td><a href="javascript:;" data-toggle="modal" data-target="#myModal${ctr.index}">${pkg.name}</a></td>
                             <td>RM ${pkg.price}</td>
                             <td class="text-center">
                                 <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addOn"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
-                                <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myView"><span class="glyphicon glyphicon-info-sign"></span> View </a>
+                                <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal${ctr.index}"><span class="glyphicon glyphicon-info-sign"></span> View </a>
 
                             </td>
                         </tr>
@@ -64,105 +64,54 @@
             </div>
         </div>
     </div>
+    <c:forEach items="${pkgs}" var="pkg" varStatus="ctr">
+        <div class="modal fade" id="myModal${ctr.index}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Package Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" class="form-horizontal">
 
-    <div class="modal fade" id="myModal1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Package Description</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" class="form-horizontal">
-
-                        <div class="form-group">
-                            <div class="col-sm-9">
-                                <div class="thumbnail-package">
-                                    <img src="../img/langkawe.jpg" />
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                    <div class="thumbnail-package">
+                                        <img src="${pkg.getImage()}" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Package Name: </label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">Langkawi Package</p>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Name: </label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">${pkg.getName()}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Package Price: </label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">RM 130.00</p>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Price: </label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">RM ${pkg.getPrice()}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Package Description: </label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">An archipelago comprising of 99 Islands, Langkawi lies in the southern Andaman Sea adjacent to Thailand border. Langkawi is the part of Malayasias Kedah state and has a land area of about 528 sq. kms. Bestowed with some of the worlds finest white-sand beaches, lush green forests and rocky mountains, Langkawi draws visitors for a memorable honeymoon. Langkawi packages are also very popular for family vacations as well leisure trip. Numerous international airlines offer flights for travel to Langkawi. If you wish for holidays in Langkawi, check out the suitable holiday deals and book holiday packages. Langkawi tours provide you a wonderful chance to enjoy a laidback vacation in the lap of nature. .</p>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Description: </label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">${pkg.getDescription()}</p>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <a href="" type="button" class="btn btn-primary">View Complete Details</a>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="modal fade" id="myModal2">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title 2</h4>
-                </div>
-                <div class="modal-body">
-                    <p>One fine body&hellip;</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="modal fade" id="myModal3">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title 3</h4>
-                </div>
-                <div class="modal-body">
-                    <p>One fine body&hellip;</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="modal fade" id="myModal4">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title 4</h4>
-                </div>
-                <div class="modal-body">
-                    <p>One fine body&hellip;</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a href="" type="button" class="btn btn-primary">View Complete Details</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+                    
+    </c:forEach>
+    
 
     <!-- /.Edit Package Modal -->
     <div class="modal fade" id="myEdit">
@@ -288,43 +237,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- /.View Package Modal -->
-    <div class="modal fade" id="myView">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="" class="form-horizontal">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">View Package</h4>
-                    </div>
-                    <div class="modal-body">
-                        <h1 class="modal-title" style="text-align:center; padding-bottom:50px;">Langkawi Island (RM400)</h1>
-                        <form action="" class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-sm-9">
-                                    <div class="thumbnail-package">
-                                        <img src="../img/langkawi.jpg" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Package Description: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">An archipelago comprising of 99 Islands, Langkawi lies in the southern Andaman Sea adjacent to Thailand border. Langkawi is the part of Malayasias Kedah state and has a land area of about 528 sq. kms. Bestowed with some of the worlds finest white-sand beaches, lush green forests and rocky mountains, Langkawi draws visitors for a memorable honeymoon. Langkawi packages are also very popular for family vacations as well leisure trip. Numerous international airlines offer flights for travel to Langkawi. If you wish for holidays in Langkawi, check out the suitable holiday deals and book holiday packages. Langkawi tours provide you a wonderful chance to enjoy a laidback vacation in the lap of nature. .</p>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
-    
     
       
     <jsp:include page="../script.jsp" />
