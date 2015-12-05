@@ -2,10 +2,13 @@
 <%@ page import="bean.Package" %>
 <%@ page import="java.util.ArrayList" %>
 <%
-  HttpSession ss = request.getSession(true);
+    ArrayList<Package> pkgs = Package.allPackage();
 
-  String  scs = (String)ss.getAttribute("scs");
-  String  err = (String)ss.getAttribute("err");
+    request.setAttribute("pkgs", pkgs);
+    HttpSession ss = request.getSession(true);
+
+    String  scs = (String)ss.getAttribute("scs");
+    String  err = (String)ss.getAttribute("err");
   
 %>
 <!DOCTYPE html>
@@ -33,54 +36,30 @@
                 </c:if>
                 <% ss.removeAttribute("scs"); ss.removeAttribute("err"); %>
                 <h1>Manage Package</h1>
+                <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myAdd"><b>+</b> Add new Package</a>
                 <table class="table table-striped custab">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Package</th>
-                            <th>Total Price</th>
+                            <th>Package Name</th>
+                            <th>Package Price</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
-                    <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myAdd"><b>+</b> Add new Package</a>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="" data-toggle="modal" data-target="#myModal1">Langkawi Package</a></td>
-                        <td>RM 990.00</td>
-                        <td class="text-center">
-                            <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addOn"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
-                            <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myView"><span class="glyphicon glyphicon-info-sign"></span> View </a>
+                    
+                    <c:forEach items="${pkgs}" var="pkg" varStatus="ctr">
+                        <tr>
+                            <td>${ctr.index +1}</td>
+                            <td><a href="javascript:;" data-toggle="modal" data-target="#myModal1">${pkg.name}</a></td>
+                            <td>RM ${pkg.price}</td>
+                            <td class="text-center">
+                                <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addOn"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
+                                <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myView"><span class="glyphicon glyphicon-info-sign"></span> View </a>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><a href="" data-toggle="modal" data-target="#myModal2">Sabah Package</a></td>
-                        <td>RM 440.00</td>
-                        <td class="text-center">
-                            <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
-                            <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span> View </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><a href="" data-toggle="modal" data-target="#myModal3">Tioman Island Package</a></td>
-                        <td>RM 220.00</td>
-                        <td class="text-center">
-                            <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
-                            <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span> View </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><a href="" data-toggle="modal" data-target="#myModal4">Penang Package</a></td>
-                        <td>RM 550.00</td>
-                        <td class="text-center">
-                            <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
-                            <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-info-sign"></span> View </a>
-                        </td>
-                    </tr>
-
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    
                 </table>
             </div>
         </div>
