@@ -41,14 +41,14 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-
+                  <form class="form-horizontal" role="form" action="<%= request.getContextPath() %>/UpdateAccount">
                 <div class="panel-heading text-center">
                     <h2>Edit Account</h2>
                     <p><i>Change your basic details</i></p>
                 </div>
-
+             
               <div class="panel-body">
-                  <form class="form-horizontal" role="form">
+                  
                       <div class="form-group">
                           <label class="col-sm-3 control-label">First Name</label>
                           <div class="col-sm-9">
@@ -100,7 +100,7 @@
                               </select>
                           </div>
                       </div>
-                  </form>
+                  
               </div>
                   
               <input type="hidden" name="id" value="${loginUser.getUsername()}">
@@ -109,6 +109,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button class="btn btn-primary" type="submit" >Save changes</button>
               </div>
+              </form>
             </div><!-- /.modal-header -->
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

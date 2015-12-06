@@ -34,19 +34,19 @@
         </div>
     </nav>
                         
-                   <!-- /.Edit account modal -->
+                       <!-- /.Edit account modal -->
         <div class="modal fade" id="myEdit">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-
+                  <form class="form-horizontal" role="form" action="<%= request.getContextPath() %>/UpdateAccount">
                 <div class="panel-heading text-center">
                     <h2>Edit Account</h2>
                     <p><i>Change your basic details</i></p>
                 </div>
-
+             
               <div class="panel-body">
-                  <form class="form-horizontal" role="form">
+                  
                       <div class="form-group">
                           <label class="col-sm-3 control-label">First Name</label>
                           <div class="col-sm-9">
@@ -71,7 +71,7 @@
                       <div class="form-group">
                           <label class="col-sm-3 control-label">Street Address</label>
                           <div class="col-sm-9">
-                              <input class="form-control" name="address" placeholder="Street Address" type="text" value="${loginUser.getAddress()}" id="address">
+                              <input class="form-control" name="address" placeholder="Street Address" type="text" id="address" value="${loginUser.getAddress()}">
                               <span class="help-inline">
                           </div>
                       </div>
@@ -98,20 +98,20 @@
                               </select>
                           </div>
                       </div>
-                  </form>
+                  
               </div>
-                              
-               <input type="hidden" name="id" value="${loginUser.getUsername()}">
+                  
+              <input type="hidden" name="id" value="${loginUser.getUsername()}">
 
               <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-                <button class="btn btn-primary" type="submit">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" type="submit" >Save changes</button>
               </div>
+              </form>
             </div><!-- /.modal-header -->
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
-
         <!-- /.Change password modal -->
         <div class="modal fade" id="myChange">
           <div class="modal-dialog">

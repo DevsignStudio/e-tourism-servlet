@@ -62,8 +62,10 @@ public class UpdateAccount extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         
-        
-        String id = request.loginUser.getID("id");
+        HttpSession ss = request.getSession(true);
+        User user= User.getUserFromUsername((String)ss.getAttribute("username"));
+        Integer id = user.getID();
+        System.out.println(user.getLastName());
         String username = request.getParameter("username");
         
         String email = request.getParameter("email");
@@ -71,23 +73,23 @@ public class UpdateAccount extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String gender = request.getParameter("gender");
         String address = request.getParameter("address");
-        String zipCode = request.getParameter("zipCode");
+        String zipCode = request.getParameter("zip");
         String city = request.getParameter("city");
         String state = request.getParameter("state");
         boolean scsGet = false;
    
         try {
             PreparedStatement preparedStatement = jdbcUtility.psUpdateClient();
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, firstName);
             preparedStatement.setString(4, lastName);
-            preparedStatement.setString(5, gender);
+            preparedStatement.setString(5, ((Integer)user.getGender()).toString());
             preparedStatement.setString(6, address);
             preparedStatement.setString(7, zipCode);
             preparedStatement.setString(8, city);
             preparedStatement.setString(9, state);
-            preparedStatement.setString(10, id);
+            preparedStatement.setString(10, ((Integer)id).toString());
             preparedStatement.executeUpdate();
             
             HttpSession session = request.getSession(true);
