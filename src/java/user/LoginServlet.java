@@ -7,7 +7,6 @@ package user;
 
 import bean.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import jdbc.JDBCUtility;
+import static user.registerServlet.isNullorEqual;
 
 /**
  *
@@ -79,20 +79,54 @@ public class LoginServlet extends HttpServlet {
         int userType = 2;
         int scs = 0;
         ResultSet rs = null;
-        String dbPassword = "z";
+        String dbPassword = "";
+        String dbUsername = "";
+        Boolean result = isNullorEqual(new String[] {username, password});
+  //      Boolean userExists = false;
+
         
+        if ( result ) {
+            session = request.getSession(true);
         
+            session.setAttribute("scs", "Please Enter All fields");
+            response.sendRedirect("login.jsp");
+                
+            return;
+        }
         
         
         try {
                 PreparedStatement preparedStatement = jdbcUtility.psSelectUserExists();
                 preparedStatement.setString(1, username);
                 rs = preparedStatement.executeQuery();
-
+                    if ( rs.next() == false) {
+                        session = request.getSession(true);
+        
+                        session.setAttribute("scs", "User does not exists");
+                        response.sendRedirect("login.jsp");
+                        return;
+                    }
+                
                 while (rs.next()) 
                 {                
                     dbPassword = rs.getString("password");
                     userType = Integer.parseInt(rs.getString("userType"));
+                    dbUsername = rs.getString("username");
+ //                   userExists = true;
+                    
+                    System.out.println(dbUsername);
+                    
+                    if ( !password.equals(dbPassword)) {
+                        session = request.getSession(true);
+        
+                        session.setAttribute("scs", "Username or Password Problem");
+                        response.sendRedirect("login.jsp");
+                        return;
+                    } 
+                    
+                    
+                    
+                   
                 }
 
             }
@@ -109,12 +143,18 @@ public class LoginServlet extends HttpServlet {
                     ex = ex.getNextException ();
                     System.out.println ("");
                 }
+                
+                session = request.getSession(true);
+        
+                session.setAttribute("scs", "Error when try to login");
+                response.sendRedirect("login.jsp");
+                return;
             }
             catch (java.lang.Exception ex)
             {
                 ex.printStackTrace ();
             }
-//            finally {
+//           finally {
 //                if (userExists) {
 //                    HttpSession session = request.getSession(true);
 //
@@ -137,6 +177,15 @@ public class LoginServlet extends HttpServlet {
     }
     
           
+    public static boolean isNullorEqual(String... strArr) {
+        for ( String st : strArr ) {
+            if (st==null || st.equals("")) {
+                return true;
+            }
+             
+        }
+        return false;
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

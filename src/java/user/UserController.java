@@ -37,9 +37,20 @@ public class UserController extends HttpServlet {
         String path =  request.getServletPath() + request.getPathInfo();
         HttpSession ss = request.getSession(true);        
                 
-        String username = (String)ss.getAttribute("username");  
-        User loginUser = User.getUserFromUsername(username);
-        request.setAttribute("loginUser", loginUser);
+          
+        
+        
+        String username = (String)ss.getAttribute("username");
+        if (username == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        } else {
+            User loginUser = User.getUserFromUsername(username);
+            loginUser = User.getUserFromUsername((String)username);
+            request.setAttribute("loginUser", loginUser);
+            sendPage(request, response, "/WEB-INF" + path);
+        }
+        
 //        if (request.getPathInfo().equals("/")) {
 //            path = request.getServletPath() + "/index.jsp" ;
 //        }
@@ -50,7 +61,6 @@ public class UserController extends HttpServlet {
 //            sendPage(request, response, "/WEB-INF" + path);
 //        }
         
-        sendPage(request, response, "/WEB-INF" + path);
     }
     
     void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException

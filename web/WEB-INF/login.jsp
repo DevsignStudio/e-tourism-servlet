@@ -1,4 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="javax.servlet.http.HttpSession" %>
 
+
+<%
+  HttpSession ss = request.getSession(true);        
+                
+  String  scs = (String)ss.getAttribute("scs");  
+    
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +24,12 @@
                         <p class="panel-title">Please Sign in</p>
                     </div>
                     <div class="panel-body">
+                        <c:if test="${scs != null}">
+                            <div class="alert alert-danger">
+                                ${scs}
+                            </div>
+                        </c:if>
+                        <% ss.invalidate(); %>
                         <form role="form" action="LoginServlet" method="post">
                             <fieldset>
                                 <div class="form-group">
