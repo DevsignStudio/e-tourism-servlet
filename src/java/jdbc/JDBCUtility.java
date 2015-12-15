@@ -36,6 +36,13 @@ public class JDBCUtility
    PreparedStatement psInsertPackageAddon = null;
    PreparedStatement psSelectPackageAddonById = null;
    PreparedStatement psSelectAllPackageAddon = null;
+   PreparedStatement psInsertTransaction = null;
+   PreparedStatement psSelectTransactionById = null;
+   PreparedStatement psSelectAllTransaction = null;
+   PreparedStatement psSelectAllTransactionUser = null;
+   PreparedStatement psInsertTransactionAddon = null;
+   PreparedStatement psSelectTransactionAddon = null;
+   PreparedStatement psUpdateTransactionStatus = null;
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -166,6 +173,29 @@ public class JDBCUtility
             
             String sqlQuerySelectAllPackageAddon = "SELECT * FROM package_add_on WHERE package_id = ?";
             this.psSelectAllPackageAddon =  con.prepareStatement(sqlQuerySelectAllPackageAddon);
+            
+            String sqlInsertTransaction = "INSERT INTO transaction(package_id, user_id, event_at, quantity) VALUES(?, ?, ?, ?);";
+            psInsertTransaction = con.prepareStatement(sqlInsertTransaction, PreparedStatement.RETURN_GENERATED_KEYS);
+            
+            String sqlQuerySelectAllTransaction = "SELECT * FROM transaction";
+            this.psSelectAllTransaction =  con.prepareStatement(sqlQuerySelectAllTransaction);
+            
+            String sqlQuerySelectAllTransactionUser = "SELECT * FROM transaction WHERE user_id = ?";
+            this.psSelectAllTransactionUser =  con.prepareStatement(sqlQuerySelectAllTransactionUser);
+            
+            String sqlSelectTransactionById = "SELECT * FROM transaction WHERE id = ?";
+            this.psSelectTransactionById =  con.prepareStatement(sqlSelectTransactionById );
+            
+            String sqlInsertTransactionAddon = "INSERT INTO transaction_addon(transaction_id, addon_id) VALUES(?, ?);";
+            psInsertTransactionAddon = con.prepareStatement(sqlInsertTransactionAddon);
+            
+            String sqlQuerySelectTransactionAddon = "SELECT * FROM transaction_addon WHERE transaction_id = ?";
+            this.psSelectTransactionAddon =  con.prepareStatement(sqlQuerySelectTransactionAddon);
+            
+            String sqlUpdateTransactionStatus = "UPDATE transaction SET status = ? WHERE id = ?";
+            psUpdateTransactionStatus = con.prepareStatement(sqlUpdateTransactionStatus);
+            
+            
 
        } catch (SQLException ex) {
           while (ex != null)
@@ -254,5 +284,40 @@ public class JDBCUtility
    public PreparedStatement psSelectAllPackageAddon()
    {
       return this.psSelectAllPackageAddon;
+   }
+   
+   public PreparedStatement psInsertTransaction()
+   {
+      return psInsertTransaction;
+   }
+   
+   public PreparedStatement psSelectTransactionById()
+   {
+      return this.psSelectTransactionById;
+   }
+   
+    public PreparedStatement psSelectAllTransaction()
+   {
+      return this.psSelectAllTransaction;
+   }
+    
+    public PreparedStatement psSelectAllTransactionUser()
+   {
+      return this.psSelectAllTransactionUser;
+   }
+    
+   public PreparedStatement psInsertTransactionAddon()
+   {
+      return psInsertTransactionAddon;
+   }
+   
+   public PreparedStatement psSelectTransactionAddon()
+   {
+      return psSelectTransactionAddon;
+   }
+   
+   public PreparedStatement psUpdateTransactionStatus()
+   {
+      return psUpdateTransactionStatus;
    }
 }

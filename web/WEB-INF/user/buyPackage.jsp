@@ -1,3 +1,18 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="bean.Package" %>
+<%@ page import="bean.User" %>
+<%@ page import="bean.Transaction" %>
+<%@ page import="bean.PackageAddon" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+    Package pkg = Package.getPackageById(Integer.parseInt(request.getParameter("id")));
+
+    request.setAttribute("pkg", pkg);
+    HttpSession ss = request.getSession(true);
+    Transaction trans = new Transaction(pkg.getId(), ((User)request.getAttribute("loginUser")).getID());
+    session.setAttribute("sessionTransaction", trans);
+  
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +29,11 @@
             <div class="col-md-8" style="margin-top: 70px">
                 <h1>Book Package</h1>
                 <div class="well">
-                    <form action="" class="form-horizontal">
+                    <form action="<%= request.getContextPath() %>/user/successPackage.jsp" method="post" class="form-horizontal">
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Select Date: </label>
-                            <div class ="col-sm-10" >
+                            <label class="col-sm-3 control-label">Select Date: </label>
+                            <div class ="col-sm-9" >
                                 <div class="date-picker"  data-date="2014-02-03">
                                     <div class="date-container">
                                         <h3 class="date">
@@ -38,40 +53,28 @@
                                         </h3>
 
                                         <input type="hidden" id="dateinput" name="date"></input>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label class="col-sm-2 control-label"> Select AddOn:  </label>
-                            <div class ="col-sm-10" >
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="">
-                                        1 Buffet Dinner with BBQ
-                                    </label>
-
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="" >
-                                        Daily Buffet Breakfast
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="" >
-                                        Snorkling
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="" >
-                                        Cruise VVIP Seats
-                                    </label>
-                                </div>
+                            <label class="col-sm-3 control-label">Number Of Person</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" placeholder="Number of Person" name="quantity" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"> Select AddOn:  </label>
+                            <div class ="col-sm-9" >
+                                
+                                <c:forEach items="${pkg.getAllAddon()}" var="pkgAO" varStatus="count">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" value="${pkgAO.getId()}" name="addOns">
+                                            ${pkgAO.getName()} (RM ${pkgAO.getPrice()}
+                                        </label>
+                                    </div>    
+                                </c:forEach>
                             </div>
                         </div>
                            
@@ -114,7 +117,7 @@
             cur_date = ($datepicker.data('date') ? moment($datepicker.data('date'), "YYYY/MM/dd") : moment());
 
             function updateDisplay(cur_date) {
-                $('#dateinput').val(cur_date);
+                $('#dateinput').val(cur_date.format("YYYY-MM-DD"));
 
                 $datepicker.find('.date-container > .date > .text').text(cur_date.format('Do'));
                 $datepicker.find('.date-container > .month > .text').text(cur_date.format('MMMM'));

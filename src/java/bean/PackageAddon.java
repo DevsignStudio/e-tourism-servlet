@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jdbc.Driver;
 import jdbc.JDBCUtility;
 import user.registerServlet;
 
@@ -66,22 +67,10 @@ public class PackageAddon {
     }
     
     public static PackageAddon getById(Integer id) {
-        String driver = "com.mysql.jdbc.Driver";
-        JDBCUtility jdbcUtility;
-        Connection con;
-
-        String dbName = "etourism";
-        String url = "jdbc:mysql://localhost/" + dbName + "?";
-        String userName = "root";
-        String password = "";
+        JDBCUtility jdbcUtility = Driver.startDB();
         ResultSet rs;
-
+        Connection con;
         PackageAddon pkg = null;
-
-        jdbcUtility = new JDBCUtility(driver,
-                                      url,
-                                      userName,
-                                      password);
 
         jdbcUtility.jdbcConnect();
         try {
