@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package admin;
+package virtualServlet;
 
 import bean.Transaction;
 import java.io.IOException;
-import java.text.ParseException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nizul Zaim
  */
-@WebServlet(name = "successPackageServlet", urlPatterns = {"/user/successPackage.jsp"})
-public class successPackageServlet extends HttpServlet {
+@WebServlet(name = "changeOrderStatusServlet", urlPatterns = {"/admin/changeOrderStatus.jsp"})
+public class changeOrderStatusServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,26 +34,27 @@ public class successPackageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            Integer status = Integer.parseInt(request.getParameter("status"));
+            
+            Transaction trans = Transaction.getTransactionById(id);
+            boolean result = trans.changeStatus(status);
+            
+            HttpSession session = request.getSession(true);
         
-        String[] addOns = request.getParameterValues("addOns");
-        HttpSession ss = request.getSession(true);
-        Transaction transaction = (Transaction)ss.getAttribute("sessionTransaction");
-        transaction.setEventAt(request.getParameter("date"));
-        transaction.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        
-        if (addOns != null) {
-            for (int i = 0; i < addOns.length; i++) {
-                transaction.addNewAddOn(Integer.parseInt(addOns[i]));
+            if (result) {
+                session.setAttribute("scs", "Successfully change status");
+            } else {
+                session.setAttribute("err", "Error when trying to change status");
             }
+            
+            
+            String referer = request.getHeader("Referer");
+            response.sendRedirect(referer);
         }
-        
-        transaction.create();
-        
-        
-        
     }
-        
-        
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

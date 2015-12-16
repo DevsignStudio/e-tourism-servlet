@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package user;
+package virtualServlet;
 
-import bean.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,17 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import jdbc.JDBCUtility;
-import user.UserController;
 import user.registerServlet;
-
 
 /**
  *
- * @author Lili Madiha
+ * @author Nizul Zaim
  */
-@WebServlet(name = "UpdateAccount", urlPatterns = {"/user/UpdateAccount", "/admin/UpdateAccount"})
-public class UpdateAccount extends HttpServlet {
-
+@WebServlet(name = "UpdateClientServlet", urlPatterns = {"/admin/update-client.jsp"})
+public class UpdateClientServlet extends HttpServlet {
     private JDBCUtility jdbcUtility;
     private Connection con;
     
@@ -41,71 +38,69 @@ public class UpdateAccount extends HttpServlet {
         String url = "jdbc:mysql://localhost/" + dbName + "?";
         String userName = "root";
         String password = "";
-        
 
         jdbcUtility = new JDBCUtility(driver,
                                       url,
                                       userName,
                                       password);
 
-        
-        
+       
         
     }  
-    
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        jdbcUtility.jdbcConnect();
+         jdbcUtility.jdbcConnect();
         try {
              jdbcUtility.prepareSQLStatement();
          } catch (SQLException ex) {
              Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
          }
         con = jdbcUtility.jdbcGetConnection();
-        
-        HttpSession ss = request.getSession(true);
-        User user= User.getUserFromUsername((String)ss.getAttribute("username"));
-        Integer id = user.getID();
-        System.out.println(user.getLastName());
+        response.setContentType("text/html;charset=UTF-8");
+        String id = request.getParameter("id");
         String username = request.getParameter("username");
-        String referer = request.getHeader("Referer");
-        
+
         String email = request.getParameter("email");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String gender = request.getParameter("gender");
         String address = request.getParameter("address");
-        String zipCode = request.getParameter("zip");
+        String zipCode = request.getParameter("zipCode");
         String city = request.getParameter("city");
         String state = request.getParameter("state");
         boolean scsGet = false;
-   
-        try {
+        try {                    
             PreparedStatement preparedStatement = jdbcUtility.psUpdateClient();
-            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, username);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, firstName);
             preparedStatement.setString(4, lastName);
-            preparedStatement.setString(5, ((Integer)user.getGender()).toString());
+            preparedStatement.setString(5, gender);
             preparedStatement.setString(6, address);
             preparedStatement.setString(7, zipCode);
             preparedStatement.setString(8, city);
             preparedStatement.setString(9, state);
-            preparedStatement.setString(10, ((Integer)id).toString());
+            preparedStatement.setString(10, id);
             preparedStatement.executeUpdate();
             
             HttpSession session = request.getSession(true);
         
             session.setAttribute("scs", "Successfully Change");
-            
-            con.close();
+            response.sendRedirect(request.getContextPath() + "/admin/tableUser.jsp");
             scsGet = true;
-            response.sendRedirect(referer);
-            return;
+            con.close();
+            
         }
-        
-        catch (SQLException ex)
+	catch (SQLException ex)
 	{
             while (ex != null)
             {

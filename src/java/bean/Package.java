@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jdbc.Driver;
 import jdbc.JDBCUtility;
 import user.registerServlet;
 
@@ -24,6 +25,7 @@ public class Package {
     String name, description, image;
     int id;
     double price;
+    private Integer display;
 
     public String getName() {
         return name;
@@ -66,6 +68,8 @@ public class Package {
         this.price = price;
     }
     
+    
+    
     public static Package getPackageById(Integer id) {
         String driver = "com.mysql.jdbc.Driver";
         JDBCUtility jdbcUtility;
@@ -107,8 +111,9 @@ public class Package {
                     pkg.setDescription(rs.getString("description"));
                     pkg.setImage(rs.getString("image"));
                     pkg.setPrice(Double.parseDouble(rs.getString("price")));
+                    pkg.setDisplay(rs.getInt("display"));
                 }
-
+                con.close();
             }
             catch (SQLException ex)
             {
@@ -128,11 +133,11 @@ public class Package {
             {
                 ex.printStackTrace ();
             }
-
+        
         return pkg;
     }
     
-    public static boolean addPackage(String name, Double price, String description, String image) {
+    public static boolean addPackage(String name, Double price, String description, String image) throws SQLException {
         String driver = "com.mysql.jdbc.Driver";
         JDBCUtility jdbcUtility;
         Connection con;
@@ -167,9 +172,9 @@ public class Package {
 
 
                 preparedStatement.executeUpdate();
-                
+                con.close();
                 return true;
-
+                
             }
 
             catch (SQLException ex)
@@ -185,6 +190,7 @@ public class Package {
                     ex = ex.getNextException ();
                     System.out.println ("");
                 }
+                
             }
             catch (java.lang.Exception ex)
             {
@@ -229,6 +235,7 @@ public class Package {
 
                 //out.println("<p>" + matriks + "</p>");
             }
+            con.close();
         }
         catch (SQLException ex)
         {
@@ -270,7 +277,7 @@ public class Package {
                 preparedStatement.setString(3, price.toString());
 
                 preparedStatement.executeUpdate();
-                
+                con.close();
                 return true;
 
             }
@@ -335,6 +342,7 @@ public class Package {
                     System.out.println(pkg.getName());
                     arr.add(pkg);
                 }
+                con.close();
 
             }
             catch (SQLException ex)
@@ -359,4 +367,148 @@ public class Package {
         return arr;
     }
     
+    
+    public static boolean deletePackage(Integer id) {
+        JDBCUtility jdbcUtility;
+        Connection con;
+        jdbcUtility = Driver.startDB();
+        jdbcUtility.jdbcConnect();
+        
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+
+        try {
+                PreparedStatement preparedStatement = jdbcUtility.psDeletePackage();
+                preparedStatement.setString(1, id.toString());
+                preparedStatement.executeUpdate();
+                con.close();
+            }
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " + ex.getSQLState ());
+                    System.out.println ("Message:  " +ex.getMessage ());
+                    System.out.println ("Vendor:   " + ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+                return false;
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+                return false;
+            }
+        
+        return true;
+    }
+    
+    public static boolean activatePackage(Integer id) {
+        JDBCUtility jdbcUtility;
+        Connection con;
+        jdbcUtility = Driver.startDB();
+        jdbcUtility.jdbcConnect();
+        
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+
+        try {
+                PreparedStatement preparedStatement = jdbcUtility.psActivatePackage();
+                preparedStatement.setString(1, id.toString());
+                preparedStatement.executeUpdate();
+                con.close();
+            }
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " + ex.getSQLState ());
+                    System.out.println ("Message:  " +ex.getMessage ());
+                    System.out.println ("Vendor:   " + ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+                return false;
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+                return false;
+            }
+        
+        return true;
+    }
+    
+    
+    public static boolean updatePackage(Integer id, String name, Double price, String description) {
+        JDBCUtility jdbcUtility;
+        Connection con;
+        jdbcUtility = Driver.startDB();
+        jdbcUtility.jdbcConnect();
+        
+        
+        
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+
+        try {
+                PreparedStatement preparedStatement = jdbcUtility.psUpdatePackage();
+                
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, price.toString());
+                preparedStatement.setString(3, description);
+                preparedStatement.setString(4, id.toString());
+                preparedStatement.executeUpdate();
+                con.close();
+            }
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " + ex.getSQLState ());
+                    System.out.println ("Message:  " +ex.getMessage ());
+                    System.out.println ("Vendor:   " + ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+                return false;
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+                return false;
+            }
+        
+        return true;
+    }
+
+    /**
+     * @return the display
+     */
+    public Integer getDisplay() {
+        return display;
+    }
+
+    /**
+     * @param display the display to set
+     */
+    public void setDisplay(Integer display) {
+        this.display = display;
+    }
 }

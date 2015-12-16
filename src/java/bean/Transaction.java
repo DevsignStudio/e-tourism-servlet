@@ -55,7 +55,7 @@ public class Transaction {
      */
     public String getStatus() {
         if (status == 0) {
-            return "<span class=\"label label-primary\">Pending Payment</span>";
+            return "<span class=\"label label-primary\">Pending</span>";
         }else if (status == 1) {
             return "<span class=\"label label-danger\">Cancel</span>";
         } else if (status == 2) {
@@ -64,7 +64,10 @@ public class Transaction {
         
         return "<span class=\"label label-warning\">Payment Overdue</span>";
     }
-
+    
+    public int getNumericStatus() {
+        return this.status;
+    }
     /**
      * @param status the status to set
      */
@@ -106,12 +109,21 @@ public class Transaction {
         this.createdAt = t;
     }
     
+    public User getUser() {
+        System.out.println(this.userId);
+        return User.getUserFromId(this.getUserId());
+    }
+    
+    public String getUsername() {
+        User user = User.getUserFromId(this.getUserId());
+        System.out.println("User :" + this.getUserId());
+        return User.getUserFromId(this.getUserId()).getUsername();
+    }
+    
     public boolean create() {
 
         JDBCUtility jdbcUtility = Driver.startDB();
         Connection con;
-
-        
         ResultSet rs;
 
         Package pkg = null;
@@ -137,6 +149,7 @@ public class Transaction {
                 while (rs != null && rs.next()) {
                     this.setId(rs.getInt(1));
                 }
+                
 
             }
 
@@ -171,6 +184,7 @@ public class Transaction {
                 preparedStatement.setString(2, (this.addons.get(i).addon_id).toString());
 
                 preparedStatement.executeUpdate();
+                con.close();
             }
 
             catch (SQLException ex)
@@ -220,6 +234,7 @@ public class Transaction {
             {
                 pkgAddons.add(PackageAddon.getById(Integer.parseInt(rs.getString("addon_id"))));
             }
+            con.close();
         }
         catch (SQLException ex)
         {
@@ -328,7 +343,7 @@ public class Transaction {
 
                 while (rs.next())
                 {
-                    trans = new Transaction(Integer.parseInt(rs.getString("package_id")), Integer.parseInt(rs.getString("package_id")));
+                    trans = new Transaction(Integer.parseInt(rs.getString("package_id")), Integer.parseInt(rs.getString("user_id")));
                     trans.setId(Integer.parseInt(rs.getString("id")));
                     trans.setEventAt(rs.getString("event_at"));
                     trans.setStatus(Integer.parseInt(rs.getString("status")));

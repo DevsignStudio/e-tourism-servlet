@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package admin;
+package virtualServlet;
 import bean.Package;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,12 +35,18 @@ public class addPackageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        boolean success = Package.addPackage(
-                request.getParameter("name"), 
-                Double.parseDouble(request.getParameter("price")),
-                request.getParameter("description"),
-                request.getParameter("image")
-                );
+        boolean success = false;
+        try {
+            success = Package.addPackage(
+                    request.getParameter("name"),
+                    Double.parseDouble(request.getParameter("price")),
+                    request.getParameter("description"),
+                    request.getParameter("image")
+            );
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(addPackageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         HttpSession session = request.getSession(true);
         

@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package admin;
+package virtualServlet;
 
-import bean.Transaction;
+import bean.Package;
+import bean.PackageAddon;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nizul Zaim
  */
-@WebServlet(name = "CancelTransactionServlet", urlPatterns = {"/user/CancelTransaction.jsp"})
-public class CancelTransactionServlet extends HttpServlet {
+@WebServlet(name = "updatePackageServlet", urlPatterns = {"/admin/updatePackage.jsp"})
+public class updatePackageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,20 +35,40 @@ public class CancelTransactionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            Integer id = Integer.parseInt(request.getParameter("id"));
-            
-            Transaction trans = Transaction.getTransactionById(id);
-            
-            trans.changeStatus(1);
-            
-            HttpSession session = request.getSession(true);
+        Integer id = Integer.parseInt(request.getParameter("packageId"));
+        String name = request.getParameter("packageName");
+        Double price = Double.parseDouble(request.getParameter("packagePrice"));
+        String description = request.getParameter("packageDescription");
+        String[] addNames = request.getParameterValues("addonName");
+        String[] addPrices = request.getParameterValues("addonPrice");
         
-            session.setAttribute("scs", "Successfully Change");
-            response.sendRedirect(request.getContextPath() + "/user/transactionHistory.jsp");
+        Package pkg = Package.getPackageById(id);
+        ArrayList<PackageAddon> pkga = pkg.getAllAddon();
+        
+        for(int i = 0; i < pkga.size(); i++) {
+            pkga.get(i).setName(addNames[i]);
+            pkga.get(i).setPrice(Double.parseDouble(addPrices[i]));
             
+            pkga.get(i).updatePackageAddon();
+            
+            System.out.println("HARAM : " + pkga.get(i).getName());
         }
+        
+        boolean result = Package.updatePackage(id, name, price, description);
+            
+        HttpSession session = request.getSession(true);
+        
+        if (result) {
+            
+            session.setAttribute("scs", "Successfully update package");
+        } else {
+            session.setAttribute("err", "Error when trying to update package");
+        }
+            
+            
+        String referer = request.getHeader("Referer");
+        response.sendRedirect(referer);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

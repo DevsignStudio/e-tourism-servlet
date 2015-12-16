@@ -157,6 +157,8 @@ public class registerServlet extends HttpServlet {
                 errGet = true;
             }
             
+            
+            
         }
         catch (SQLException ex)
         {
@@ -231,6 +233,7 @@ public class registerServlet extends HttpServlet {
 
 
                 scs = preparedStatement.executeUpdate();
+                con.close();
 
             }
 

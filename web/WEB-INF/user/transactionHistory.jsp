@@ -57,7 +57,15 @@
                             <td>RM ${t.getTotalPrice()}</td>
                             <td>${t.getStatus()}</td>
                             <td>${t.getEventAt()}</td>
-                            <td class="text-center"> <a href="<%= request.getContextPath()%>/user/CancelTransaction.jsp?id=${t.getId()}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Cancel</a> </td>
+                            <td class="text-center"> 
+                                <c:if test="${t.getNumericStatus() == 0}">
+                                    <a href="<%= request.getContextPath()%>/user/CancelTransaction.jsp?id=${t.getId()}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Cancel</a> 
+                                </c:if>
+                                <c:if test="${t.getNumericStatus() != 0}">
+                                    No Action
+                                </c:if>
+                                
+                            </td>
                         </tr>
                     </c:forEach>
                     
@@ -66,28 +74,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="myDelete">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="" class="form-horizontal">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3 class="modal-title">Delete Transaction History</h3>
-                    </div>
-                    <div class="modal-body">
-
-                        <h5>Are you sure you want to delete? </h5>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-
-                </form>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
 
     <jsp:include page="../script.jsp" />

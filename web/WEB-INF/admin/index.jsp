@@ -1,3 +1,25 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="bean.User" %>
+<%@ page import="bean.Report" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="bean.Package" %>
+<%@ page import="bean.PackageAddon" %>
+<%
+ArrayList<User> clients = User.getAllClient();
+
+request.setAttribute("clients", clients);
+
+ArrayList<Package> pkgs = Package.allPackage();
+
+    request.setAttribute("pkgs", pkgs);
+%>
+<%
+  HttpSession ss = request.getSession(true);
+
+  String  scs = (String)ss.getAttribute("scs");
+  String  err = (String)ss.getAttribute("err");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,256 +32,239 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 custyle" style="margin-top: 70px;">
-                <h1>Users List</h1>
+                    <c:if test="${err != null}">
+                        <div class="alert alert-danger">
+                            ${err}
+                        </div>
+                    </c:if>
+                    <c:if test="${scs != null}">
+                        <div class="alert alert-success">
+                            ${scs}
+                        </div>
+                    </c:if>
+                    <% ss.removeAttribute("scs"); ss.removeAttribute("err"); %>
+                    <h3>Simple Report</h3>
+                    <table class="table" style="font-size: 16px;"> 
+                        <tbody> 
+                            <tr class="success"> 
+                                <th scope="row">Total Number Of Client</th> 
+                                <td><%= Report.getTotalUser() %> person(s)</td>
+                            </tr>
+                            <tr class="success"> 
+                                <th scope="row">Total Number Of Package</th> 
+                                <td><%= Report.getTotalPackage() %> package(s)</td>
+                            </tr> 
+                            <tr class="success"> 
+                                <th scope="row">Total Number Of Order</th> 
+                                <td><%= Report.getTotalOrder() %> order(s)</td>
+                            </tr> 
+                            <tr class="success"> 
+                                <th scope="row">Total Number Of Order (Success)</th> 
+                                <td><%= Report.totalSuccessOrder() %> order(s)</td>
+                            </tr> 
+                            <tr class="success"> 
+                                <th scope="row">Total Number Of Order (Pending)</th> 
+                                <td><%= Report.totalPendingOrder() %> order(s)</td>
+                            </tr> 
+                            <tr class="success"> 
+                                <th scope="row">Total Sales</th> 
+                                <td>MYR <%= Report.getTotalSales() %></td>
+                            </tr> 
+                        </tbody> 
+                    </table>
+                    <h3>Users List</h3>
+                    <table class="table table-striped custab">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <c:forEach items="${clients}" var="client" varStatus="ctr">
+
+                            <tr>
+                                <td>${ctr.index+1}</td>
+                                <td>${client.getEmail()}</td>
+                                <td>${client.getUsername()}</td>
+                                <td>${client.getFullname()}</td>
+                                <c:if test="${client.getGender() == 1}">
+                                    <td>Male</td>
+                                </c:if>
+                                <c:if test="${client.getGender() != 1}">
+                                    <td>Female</td>
+                                </c:if>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                    
+            <div class="col-md-12 custyle">
+                <c:if test="${err != null}">
+                    <div class="alert alert-danger">
+                        ${err}
+                    </div>
+                </c:if>
+                <c:if test="${scs != null}">
+                    <div class="alert alert-success">
+                        ${scs}
+                    </div>
+                </c:if>
+                <% ss.removeAttribute("scs"); ss.removeAttribute("err"); %>
+                <h3>Manage Package</h3>
                 <table class="table table-striped custab">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Email</th>
-                            <th>Username</th>
-                            <th>Name</th>
-                            <th>Gender</th>
+                            <th>Package Name</th>
+                            <th>Package Price</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
-                    <tr>
-                        <td>1</td>
-                        <td>Lili93@gmail.com</td>
-                        <td>News</td>
-                        <td>News Cate</td>
-                        <td>Male</td>
-                        <td class="text-center">
-                            <a href="view-user.html" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModel">
-                                <span class="glyphicon glyphicon-info-sign"></span> View </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Lili93@gmail.com</td>
-                        <td>Products</td>
-                        <td>Main Products</td>
-                        <td>Female</td>
-                        <td class="text-center">
-                            <a href="view-user.html" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModel">
-                                <span class="glyphicon glyphicon-info-sign"></span> View </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Lili93@gmail.com</td>
-                        <td>luxey93</td>
-                        <td>Lili Madiha</td>
-                        <td>Female</td>
-                        <td class="text-center">
-                            <a href="view-user.html" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModel">
-                                <span class="glyphicon glyphicon-info-sign"></span> View </a>
-                        </td>
+                    
+                    <c:forEach items="${pkgs}" var="pkg" varStatus="ctr">
+                        <tr>
+                            <td>${ctr.index +1}</td>
+                            <td><a href="javascript:;" data-toggle="modal" data-target="#myModal${ctr.index}">${pkg.name}</a></td>
+                            <td>RM ${pkg.price}</td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal${ctr.index}"><span class="glyphicon glyphicon-info-sign"></span> View </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    
                 </table>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <span class="glyphicon glyphicon-time"></span> Tasks Panel</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="list-group">
-                            <a href="#" class="list-group-item">
-                                <span class="badge">just now</span>
-                                <span class="glyphicon glyphicon-calendar"></span> Calendar updated
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">4 minutes ago</span>
-                                <span class="glyphicon glyphicon-comment"></span> Commented on a post
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">23 minutes ago</span>
-                                <span class="glyphicon glyphicon-plane"></span> Order 392 shipped
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">46 minutes ago</span>
-                                <span class="glyphicon glyphicon-usd"></span> Invoice 653 has been paid
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">1 hour ago</span>
-                                <span class="glyphicon glyphicon-user"></span> A new user has been added
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">2 hours ago</span>
-                                <span class="glyphicon glyphicon-list-alt"></span> Completed task: "pick up dry cleaning"
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">two days ago</span>
-                                <span class="glyphicon glyphicon-list-alt"></span> Completed task: "fix error on sales page"
-                            </a>
-                        </div>
-                        <div class="text-right">
-                            <a href="#">View All Activity <span class="glyphicon glyphicon-chevron-right"></span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <span class="glyphicon glyphicon-usd"></span> Transactions Panel</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Order #</th>
-                                        <th>Order Date</th>
-                                        <th>Order Time</th>
-                                        <th>Amount (USD)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>3326</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:29 PM</td>
-                                        <td>$321.33</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3325</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:20 PM</td>
-                                        <td>$234.34</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3324</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:03 PM</td>
-                                        <td>$724.17</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3323</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:00 PM</td>
-                                        <td>$23.71</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3322</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:49 PM</td>
-                                        <td>$8345.23</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3321</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:23 PM</td>
-                                        <td>$245.12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3320</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:15 PM</td>
-                                        <td>$5663.54</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3319</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:13 PM</td>
-                                        <td>$943.45</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-right">
-                            <a href="manage-order-admin.html">View All Transactions <span class="glyphicon glyphicon-chevron-right"></span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
-
-
-    <div class="modal fade" id="myModel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="col-md-8" style="margin-top: 70px">
-                    <h1>View User Details</h1>
-                    <div class="well">
+                
+    <c:forEach items="${pkgs}" var="pkg" varStatus="ctr">
+        <div class="modal fade" id="myModal${ctr.index}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Package Details</h4>
+                    </div>
+                    <div class="modal-body">
                         <form action="" class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">First Name: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">email@example.com</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Last Name: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">email@example.com</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Email: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">email@example.com</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Username: </label>
-                                <div class="col-sm-9">
-                                    <p class="form-control-static">luxey93</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Gender: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">Female</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Street: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">Kampung</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Zip Code: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">83400</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">City: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">Batu Pahat</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">State: </label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">Johor</p>
-                                </div>
-                            </div>
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <img src="${pkg.getImage()}" class="img-responsive" style="width:100%;"/>
+                                </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Package Name: </label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">${pkg.getName()}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Package Price: </label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">RM ${pkg.getPrice()}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Package Description: </label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">${pkg.getDescription()}</p>
+                                </div>
+                            </div>
+                            
+                            <c:forEach items="${pkg.getAllAddon()}" var="pkgAO" varStatus="count">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Package Add On ${count.index+1}: </label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static">${pkgAO.getName()} (RM ${pkgAO.getPrice()})</p>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </form>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- /.Edit Package Modal -->
+        <div class="modal fade" id="myEdit${ctr.index}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="" class="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit Package</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Name: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Package Name" name="packageName" type="text" value="${pkg.getName()}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Price: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Package Price" name="packagePrice" type="text" value="${pkg.getPrice()}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Package Description: </label>
+                                <div class="col-sm-10" >
+                                    <textarea class="form-control" placeholder="Package Description" name="#packageDescription" id="packageDescriptionn" type="textarea" maxlength="300" rows="5">${pkg.getDescription()}</textarea>
+                                </div>
+                            </div>
+                        </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- /.Add-On Modal -->
+        <div class="modal fade" id="addOn${ctr.index}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="<%= request.getContextPath() %>/admin/addPackageAddon.jsp" class="form-horizontal">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Add Add-On</h4>
+                        </div>
+                        <div class="modal-body">
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Add-On Name: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Add-On Name" name="name" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Add-On Price: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" placeholder="Ad-On Price" name="price" type="text">
+                                </div>
+                            </div>
+                            <input type="hidden" name="id" value="${pkg.id}" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </c:forEach>
 
     <jsp:include page="../script.jsp" />
     <script>

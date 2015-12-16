@@ -24,6 +24,7 @@
     <div class="container" style="margin-top: 80px;">
         <div class="row" id="thumbnail-box">
             <c:forEach items="${pkgs}" var="pkg" varStatus="ctr">
+                <c:if test="${pkg.getDisplay() == 1}">
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail" >
                         <img src="${pkg.getImage()}" class="img-responsive">
@@ -49,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+                </c:if>
 
             </c:forEach>
             

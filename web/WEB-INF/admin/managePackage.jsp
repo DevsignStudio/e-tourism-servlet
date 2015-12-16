@@ -55,7 +55,15 @@
                             <td>RM ${pkg.price}</td>
                             <td class="text-center">
                                 <a class='btn btn-info btn-xs' href="#"  data-toggle="modal" data-target="#myEdit${ctr.index}"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addOn${ctr.index}"><span class="glyphicon glyphicon-info-sign"></span> Add Add-On</a>
-                                <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a> <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal${ctr.index}"><span class="glyphicon glyphicon-info-sign"></span> View </a>
+                                <c:if test="${pkg.getDisplay() == 1}">
+                                    <a href="<%= request.getContextPath() %>/admin/deletePackage.jsp?id=${pkg.getId()}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> DeActivate</a> 
+                                </c:if>
+                                    
+                                <c:if test="${pkg.getDisplay() == 0}">
+                                    <a href="<%= request.getContextPath() %>/admin/activatePackage.jsp?id=${pkg.getId()}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span> Activate</a> 
+                                </c:if>
+                                
+                                <a href="#" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal${ctr.index}"><span class="glyphicon glyphicon-info-sign"></span> View </a>
 
                             </td>
                         </tr>
@@ -120,30 +128,48 @@
         <div class="modal fade" id="myEdit${ctr.index}">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="" class="form-horizontal">
+                    <form action="<%= request.getContextPath() %>/admin/updatePackage.jsp" class="form-horizontal">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Edit Package</h4>
+                            <h4 class="modal-title">Update Package</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Package Name: </label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">Package Name: </label>
+                                <div class="col-sm-9">
                                     <input class="form-control" placeholder="Package Name" name="packageName" type="text" value="${pkg.getName()}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Package Price: </label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-3 control-label">Package Price: </label>
+                                <div class="col-sm-9">
                                     <input class="form-control" placeholder="Package Price" name="packagePrice" type="text" value="${pkg.getPrice()}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Package Description: </label>
-                                <div class="col-sm-10" >
-                                    <textarea class="form-control" placeholder="Package Description" name="#packageDescription" id="packageDescriptionn" type="textarea" maxlength="300" rows="5">${pkg.getDescription()}</textarea>
+                                <label class="col-sm-3 control-label">Package Description: </label>
+                                <div class="col-sm-9" >
+                                    <textarea class="form-control" placeholder="Package Description" name="packageDescription" id="packageDescriptionn" type="textarea" maxlength="300" rows="5">${pkg.getDescription()}</textarea>
                                 </div>
                             </div>
+                                <input name="packageId" type="hidden" value="${pkg.getId()}">
+                            <c:forEach items="${pkg.getAllAddon()}" var="pkgAO" varStatus="count">
+                                <hr />
+                                <h4>Package Add on ${count.index + 1}</h4>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Package Name: </label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" placeholder="Package Addon Name" name="addonName" type="text" value="${pkgAO.getName()}">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Package Price: </label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" placeholder="Package Addon Price" name="addonPrice" type="text" value="${pkgAO.getPrice()}">
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
 
                         <div class="modal-footer">

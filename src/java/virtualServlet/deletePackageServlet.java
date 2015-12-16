@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package admin;
+package virtualServlet;
 
 import bean.Package;
 import java.io.IOException;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nizul Zaim
  */
-@WebServlet(name = "addPackageAddonServlet", urlPatterns = {"/admin/addPackageAddon.jsp"})
-public class addPackageAddonServlet extends HttpServlet {
+@WebServlet(name = "deletePackageServlet", urlPatterns = {"/admin/deletePackage.jsp"})
+public class deletePackageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,20 +34,23 @@ public class addPackageAddonServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            boolean result = Package.deletePackage(id);
+            
+            HttpSession session = request.getSession(true);
         
-        Package pkg = Package.getPackageById(Integer.parseInt(request.getParameter("id")));
-        
-        boolean success = pkg.addPackageAddOn(request.getParameter("name"), Double.parseDouble(request.getParameter("price")));
-        
-        HttpSession session = request.getSession(true);
-        
-        if (success) {
-            session.setAttribute("scs", "Successfully add new Package add on");
-        } else {
-            session.setAttribute("err", "Error when trying to Add new package add on");
+            if (result) {
+                session.setAttribute("scs", "Successfully change status");
+            } else {
+                session.setAttribute("err", "Error when trying to change status");
+            }
+            
+            
+            String referer = request.getHeader("Referer");
+            response.sendRedirect(referer);
         }
-        
-        response.sendRedirect(request.getContextPath() + "/admin/managePackage.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

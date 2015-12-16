@@ -1,13 +1,13 @@
-package admin;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package virtualServlet;
 
-import bean.User;
+import bean.Transaction;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nizul Zaim
  */
-@WebServlet(urlPatterns = {"/admin/client-delete.jsp"})
-public class DeleteClientServlet extends HttpServlet {
+@WebServlet(name = "CancelTransactionServlet", urlPatterns = {"/user/CancelTransaction.jsp"})
+public class CancelTransactionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,18 +34,24 @@ public class DeleteClientServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int id = Integer.parseInt(request.getParameter("id"));
-        
-        boolean success = User.deleteClient(id);
-        HttpSession session = request.getSession(true);
-        
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            Integer id = Integer.parseInt(request.getParameter("id"));
             
-        if (success) {
-            session.setAttribute("scs", "Successfully Delete Client");
-        } else {
-            session.setAttribute("err", "Error when trying to Delete Client");
+            Transaction trans = Transaction.getTransactionById(id);
+            HttpSession session = request.getSession(true);
+            
+            if (trans.getNumericStatus() != 0) {
+                session.setAttribute("err", "Cannot change status");
+                response.sendRedirect(request.getContextPath() + "/user/transactionHistory.jsp");
+                return;
+            }
+            
+            trans.changeStatus(1);
+            session.setAttribute("scs", "Successfully Change");
+            response.sendRedirect(request.getContextPath() + "/user/transactionHistory.jsp");
+            
         }
-        response.sendRedirect(request.getContextPath() + "/admin/tableUser.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

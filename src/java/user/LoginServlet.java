@@ -99,22 +99,41 @@ public class LoginServlet extends HttpServlet {
                 PreparedStatement preparedStatement = jdbcUtility.psSelectUserExists();
                 preparedStatement.setString(1, username);
                 rs = preparedStatement.executeQuery();
+                int uT = 2;
                     if ( rs.next() == false) {
                         session = request.getSession(true);
         
                         session.setAttribute("scs", "User does not exists");
                         response.sendRedirect("login.jsp");
                         return;
+                    } else {
+                        dbPassword = rs.getString("password");
+                    
+                        dbUsername = rs.getString("username");
+     //                   userExists = true;
+
+
+
+                        if ( !password.equals(dbPassword)) {
+                            session = request.getSession(true);
+
+                            session.setAttribute("scs", "Username or Password Problem");
+                            response.sendRedirect("login.jsp");
+                            return;
+                        } else {
+                            uT = Integer.parseInt(rs.getString("userType"));
+                        }
+                        
                     }
                 
                 while (rs.next()) 
                 {                
                     dbPassword = rs.getString("password");
-                    userType = Integer.parseInt(rs.getString("userType"));
+                    
                     dbUsername = rs.getString("username");
  //                   userExists = true;
                     
-                    System.out.println(dbUsername);
+                    
                     
                     if ( !password.equals(dbPassword)) {
                         session = request.getSession(true);
@@ -122,12 +141,13 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute("scs", "Username or Password Problem");
                         response.sendRedirect("login.jsp");
                         return;
-                    } 
-                    
-                    
-                    
-                   
+                    } else {
+                        uT = Integer.parseInt(rs.getString("userType"));
+                        System.out.println("nIUhgasfhgishfkhskfhjshf Nizul Zaim");
+                    }
                 }
+                
+                userType = uT;
 
             }
             catch (SQLException ex)

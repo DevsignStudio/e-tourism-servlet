@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package admin;
+package virtualServlet;
 
+import bean.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -25,11 +25,11 @@ import user.registerServlet;
  *
  * @author Nizul Zaim
  */
-@WebServlet(name = "UpdateClientServlet", urlPatterns = {"/admin/update-client.jsp"})
-public class UpdateClientServlet extends HttpServlet {
+@WebServlet(name = "changePasswordServlet", urlPatterns = {"/user/changePassword.jsp", "/admin/changePassword.jsp"})
+public class changePasswordServlet extends HttpServlet {
+    
     private JDBCUtility jdbcUtility;
     private Connection con;
-    
     public void init() throws ServletException
     {
         String driver = "com.mysql.jdbc.Driver";
@@ -65,37 +65,40 @@ public class UpdateClientServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String id = request.getParameter("id");
-        String username = request.getParameter("username");
-
-        String email = request.getParameter("email");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String gender = request.getParameter("gender");
-        String address = request.getParameter("address");
-        String zipCode = request.getParameter("zipCode");
-        String city = request.getParameter("city");
-        String state = request.getParameter("state");
+        HttpSession ss = request.getSession(true);        
+                
+        String username = (String)ss.getAttribute("username");  
+        User loginUser = User.getUserFromUsername(username);
+        String id = ((Integer)loginUser.getID()).toString();
+        String password = request.getParameter("password");
+        String rePassword = request.getParameter("re-Password");
+        String currentPassword = request.getParameter("current-Password");
+        String referer = request.getHeader("Referer");
+        
         boolean scsGet = false;
+        
+        if (!password.equals(rePassword)) {
+            HttpSession session = request.getSession(true);
+        
+            session.setAttribute("err", "Please Re-enter correct password");
+            response.sendRedirect(referer);
+            return;
+        }
+        
         try {                    
-            PreparedStatement preparedStatement = jdbcUtility.psUpdateClient();
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, email);
-            preparedStatement.setString(3, firstName);
-            preparedStatement.setString(4, lastName);
-            preparedStatement.setString(5, gender);
-            preparedStatement.setString(6, address);
-            preparedStatement.setString(7, zipCode);
-            preparedStatement.setString(8, city);
-            preparedStatement.setString(9, state);
-            preparedStatement.setString(10, id);
+            PreparedStatement preparedStatement = jdbcUtility.psUpdatePassword();
+            preparedStatement.setString(1, password);
+            preparedStatement.setString(2, id);
             preparedStatement.executeUpdate();
             
             HttpSession session = request.getSession(true);
         
             session.setAttribute("scs", "Successfully Change");
-            response.sendRedirect(request.getContextPath() + "/admin/tableUser.jsp");
+            response.sendRedirect(referer);
             scsGet = true;
+            
+            con.close();
+            return;
         }
 	catch (SQLException ex)
 	{
@@ -122,7 +125,8 @@ public class UpdateClientServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
         
             session.setAttribute("err", "Something wrong when trying to update client data");
-            response.sendRedirect(request.getContextPath() + "/admin/tableUser.jsp");
+            response.sendRedirect(referer);
+            return;
         }
     }
 

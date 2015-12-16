@@ -48,6 +48,12 @@ public class UserController extends HttpServlet {
             User loginUser = User.getUserFromUsername(username);
             loginUser = User.getUserFromUsername((String)username);
             request.setAttribute("loginUser", loginUser);
+            
+            if (loginUser.getUserType() == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin/"); 
+                return;
+            }
+            
             sendPage(request, response, "/WEB-INF" + path);
         }
         

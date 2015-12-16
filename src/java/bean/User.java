@@ -231,6 +231,80 @@ public class User implements Serializable {
                     user.setZipCode(Integer.parseInt(rs.getString("zipCode")));
                     user.setUserType(Integer.parseInt(rs.getString("userType")));
                 }
+                
+                con.close();
+
+            }
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " +
+                                         ex.getSQLState ());
+                    System.out.println ("Message:  " +
+                                         ex.getMessage ());
+                    System.out.println ("Vendor:   " +
+                                         ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+            }
+
+        return user;
+    }
+    
+    public static User getUserFromId(Integer id) {
+        String driver = "com.mysql.jdbc.Driver";
+        JDBCUtility jdbcUtility;
+        Connection con;
+
+        String dbName = "etourism";
+        String url = "jdbc:mysql://localhost/" + dbName + "?";
+        String userName = "root";
+        String password = "";
+        ResultSet rs;
+
+        User user = new User();
+
+        jdbcUtility = new JDBCUtility(driver,
+                                      url,
+                                      userName,
+                                      password);
+
+        jdbcUtility.jdbcConnect();
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+
+        try {
+                PreparedStatement preparedStatement = jdbcUtility.psSelectUserExistsById();
+                preparedStatement.setString(1, id.toString());
+                rs = preparedStatement.executeQuery();
+
+                while (rs.next())
+                {
+                    user.setFirstName(rs.getString("firstName"));
+                    user.setID(Integer.parseInt(rs.getString("id")));
+                    user.setLastName(rs.getString("lastName"));
+                    user.setUsername(rs.getString("username"));
+                    user.setEmail(rs.getString("email"));
+                    user.setGender(Integer.parseInt(rs.getString("gender")));
+                    user.setAddress(rs.getString("address"));
+                    user.setCity(rs.getString("city"));
+                    user.setState(rs.getString("state"));
+                    user.setZipCode(Integer.parseInt(rs.getString("zipCode")));
+                    user.setUserType(Integer.parseInt(rs.getString("userType")));
+                }
+                
+                con.close();
 
             }
             catch (SQLException ex)
@@ -296,6 +370,7 @@ public class User implements Serializable {
 
                 //out.println("<p>" + matriks + "</p>");
             }
+            con.close();
         }
         catch (SQLException ex)
         {
@@ -336,7 +411,7 @@ public class User implements Serializable {
                 preparedStatement.setString(1, ((Integer)id).toString());
                 preparedStatement.executeUpdate();
 
-
+                con.close();
             }
         catch (SQLException ex)
             {

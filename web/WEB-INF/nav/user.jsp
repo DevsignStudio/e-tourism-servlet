@@ -25,8 +25,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, ${loginUser.getFullname()} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#" data-toggle="modal" data-target="#myEdit">Edit Account</a></li>
-                            <li><a href="<%=request.getContextPath()%>/user/transactionHistory.jsp">Transaction History</a></li>
-                            <li><a href="<%=request.getContextPath()%>/user/myOrder.jsp">View Order</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#myChange">Change Password</a></li>
+                            <li><a href="<%=request.getContextPath()%>/user/transactionHistory.jsp">View Order</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="<%=request.getContextPath()%>/logout.jsp">Logout</a></li>
                         </ul>
@@ -41,7 +41,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                  <form class="form-horizontal" role="form" action="<%= request.getContextPath() %>/UpdateAccount">
+                  <form class="form-horizontal" role="form" action="<%= request.getContextPath() %>/user/UpdateAccount">
                 <div class="panel-heading text-center">
                     <h2>Edit Account</h2>
                     <p><i>Change your basic details</i></p>
@@ -114,3 +114,48 @@
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
+      
+      <!-- /.Change password modal -->
+        <div class="modal fade" id="myChange">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="panel-heading text-center">
+                    <h2>Change Password</h2>
+                    <p><i>Change your password</i></p>
+                </div>
+                   <form class="form-horizontal" action="<%= request.getContextPath() %>/user/changePassword.jsp" role="form">
+              <div class="panel-body">
+               
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Current Password</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" placeholder="Current Password" name="current-Password" type="password" value="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Password</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Confirm Password</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" placeholder="Confirm Password" name="re-Password" type="password" value="">
+                    </div>
+                </div>
+              
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+              </form>
+            </div><!-- /.modal-header -->
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->  

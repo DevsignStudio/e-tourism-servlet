@@ -94,7 +94,7 @@ public class PackageAddon {
                     pkg.setName(rs.getString("name"));
                     pkg.setPrice(Double.parseDouble(rs.getString("price")));
                 }
-
+                con.close();
             }
             catch (SQLException ex)
             {
@@ -116,5 +116,50 @@ public class PackageAddon {
             }
 
         return pkg;
+    }
+    public boolean updatePackageAddon() {
+        JDBCUtility jdbcUtility;
+        Connection con;
+        jdbcUtility = Driver.startDB();
+        jdbcUtility.jdbcConnect();
+        
+        
+        
+        try {
+             jdbcUtility.prepareSQLStatement();
+         } catch (SQLException ex) {
+             Logger.getLogger(registerServlet.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        con = jdbcUtility.jdbcGetConnection();
+
+
+        try {
+                PreparedStatement preparedStatement = jdbcUtility.psUpdatePackageAddon();
+                
+                preparedStatement.setString(1, this.getName());
+                preparedStatement.setString(2, ((Double)this.getPrice()).toString());
+                preparedStatement.setString(3, ((Integer)this.getId()).toString());
+                preparedStatement.executeUpdate();
+                con.close();
+            }
+            catch (SQLException ex)
+            {
+                while (ex != null)
+                {
+                    System.out.println ("SQLState: " + ex.getSQLState ());
+                    System.out.println ("Message:  " +ex.getMessage ());
+                    System.out.println ("Vendor:   " + ex.getErrorCode ());
+                    ex = ex.getNextException ();
+                    System.out.println ("");
+                }
+                return false;
+            }
+            catch (java.lang.Exception ex)
+            {
+                ex.printStackTrace ();
+                return false;
+            }
+        
+        return true;
     }
 }

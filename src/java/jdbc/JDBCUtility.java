@@ -27,6 +27,7 @@ public class JDBCUtility
    PreparedStatement psSelectClient = null;
    PreparedStatement psSelectAllClient = null;
    PreparedStatement psSelectUserExists = null;
+   PreparedStatement psSelectUserExistsById = null;
    PreparedStatement psSelectUserExistsByEmail = null;
    PreparedStatement psUpdateClient = null;
    PreparedStatement psDeleteClient = null;
@@ -43,6 +44,11 @@ public class JDBCUtility
    PreparedStatement psInsertTransactionAddon = null;
    PreparedStatement psSelectTransactionAddon = null;
    PreparedStatement psUpdateTransactionStatus = null;
+   PreparedStatement psDeletePackage = null;
+   PreparedStatement psActivatePackage = null;
+   PreparedStatement psUpdatePackage = null;
+   PreparedStatement psUpdatePackageAddon = null;
+   PreparedStatement psUpdatePassword = null;
    
    //use this constructor if using ConnectionPool
    public JDBCUtility()
@@ -115,22 +121,7 @@ public class JDBCUtility
    public void prepareSQLStatement() throws SQLException
    {
        try {
-//           //select all student
-//            String sqlSelectAllStudent = "SELECT * FROM student";
-//            psSelectAllStudent = con.prepareStatement(sqlSelectAllStudent);
-//
-//            //select student with matriks = ?
-//            String sqlSelectStudentViaMatriks = "SELECT * FROM student where matriks = ?";
-//            psSelectStudentViaMatriks = con.prepareStatement(sqlSelectStudentViaMatriks);
-//
-//            //insert student
-//            String sqlInsertStudent = "INSERT INTO student(matriks, name, ic, age) VALUES(?, ?, ?, ?)";
-//            psInsertStudent = con.prepareStatement(sqlInsertStudent);
-//
-//
-            //update student name via matriks
             
-//
 //            //delete student via matriks
             String sqlDeleteStudentViaMatriks = "DELETE FROM student WHERE matriks = ?";
             psDeleteStudentViaMatriks = con.prepareStatement(sqlDeleteStudentViaMatriks);
@@ -146,6 +137,9 @@ public class JDBCUtility
 
             String sqlQueryUserExists = "SELECT * FROM user WHERE username = ?";
             psSelectUserExists =  con.prepareStatement(sqlQueryUserExists);
+            
+            String sqlQueryUserExistsById = "SELECT * FROM user WHERE id = ?";
+            psSelectUserExistsById =  con.prepareStatement(sqlQueryUserExistsById);
 
             String sqlQueryUserExistsByEmail = "SELECT * FROM user WHERE email = ?";
             psSelectUserExistsByEmail =  con.prepareStatement(sqlQueryUserExistsByEmail);
@@ -177,10 +171,10 @@ public class JDBCUtility
             String sqlInsertTransaction = "INSERT INTO transaction(package_id, user_id, event_at, quantity) VALUES(?, ?, ?, ?);";
             psInsertTransaction = con.prepareStatement(sqlInsertTransaction, PreparedStatement.RETURN_GENERATED_KEYS);
             
-            String sqlQuerySelectAllTransaction = "SELECT * FROM transaction";
+            String sqlQuerySelectAllTransaction = "SELECT * FROM transaction ORDER BY id DESC";
             this.psSelectAllTransaction =  con.prepareStatement(sqlQuerySelectAllTransaction);
             
-            String sqlQuerySelectAllTransactionUser = "SELECT * FROM transaction WHERE user_id = ?";
+            String sqlQuerySelectAllTransactionUser = "SELECT * FROM transaction WHERE user_id = ? ORDER BY id DESC";
             this.psSelectAllTransactionUser =  con.prepareStatement(sqlQuerySelectAllTransactionUser);
             
             String sqlSelectTransactionById = "SELECT * FROM transaction WHERE id = ?";
@@ -195,6 +189,20 @@ public class JDBCUtility
             String sqlUpdateTransactionStatus = "UPDATE transaction SET status = ? WHERE id = ?";
             psUpdateTransactionStatus = con.prepareStatement(sqlUpdateTransactionStatus);
             
+            String sqlDeletePackage= "UPDATE package SET display = 0 WHERE id = ?";
+            psDeletePackage = con.prepareStatement(sqlDeletePackage);
+            
+            String sqlActivatePackage= "UPDATE package SET display = 1 WHERE id = ?";
+            psActivatePackage = con.prepareStatement(sqlActivatePackage);
+            
+            String sqlUpdatePackage = "UPDATE package SET name = ?,price = ?, description = ?  WHERE id = ?";
+            psUpdatePackage = con.prepareStatement(sqlUpdatePackage);
+            
+            String sqlUpdatePackageAddon = "UPDATE package_add_on SET name = ?,price = ?  WHERE id = ?";
+            psUpdatePackageAddon = con.prepareStatement(sqlUpdatePackageAddon);
+            
+            String sqlUpdatePassword = "UPDATE user SET password = ? WHERE id = ?";
+            psUpdatePassword = con.prepareStatement(sqlUpdatePassword);
             
 
        } catch (SQLException ex) {
@@ -239,6 +247,11 @@ public class JDBCUtility
    public PreparedStatement psSelectUserExists()
    {
       return this.psSelectUserExists;
+   }
+   
+   public PreparedStatement psSelectUserExistsById()
+   {
+      return this.psSelectUserExistsById;
    }
 
    public PreparedStatement psSelectUserExistsByEmail()
@@ -319,5 +332,30 @@ public class JDBCUtility
    public PreparedStatement psUpdateTransactionStatus()
    {
       return psUpdateTransactionStatus;
+   }
+   
+   public PreparedStatement psDeletePackage()
+   {
+      return psDeletePackage;
+   }
+   
+   public PreparedStatement psUpdatePackage()
+   {
+      return psUpdatePackage;
+   }
+   
+   public PreparedStatement psUpdatePackageAddon()
+   {
+      return psUpdatePackageAddon;
+   }
+   
+   public PreparedStatement psUpdatePassword()
+   {
+      return psUpdatePassword;
+   }
+   
+   public PreparedStatement psActivatePackage()
+   {
+      return psActivatePackage;
    }
 }

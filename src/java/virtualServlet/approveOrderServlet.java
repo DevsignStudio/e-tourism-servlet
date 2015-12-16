@@ -1,15 +1,13 @@
-package user;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package virtualServlet;
 
-import bean.User;
+import bean.Transaction;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +17,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Lili Madiha
+ * @author Nizul Zaim
  */
-@WebServlet(urlPatterns = {"/admin/*"})
-public class AdminController extends HttpServlet {
+@WebServlet(name = "approveOrderServlet", urlPatterns = {"/admin/approveOrder.jsp"})
+public class approveOrderServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,42 +34,30 @@ public class AdminController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String path =  request.getServletPath() + request.getPathInfo();
-        HttpSession ss = request.getSession(true);        
-                
-        String username = (String)ss.getAttribute("username");  
-        
-        if (username == null) {
-            response.sendRedirect(request.getContextPath() + "/login.jsp"); 
-        } else {
-            User loginUser = User.getUserFromUsername(username);
-            loginUser = User.getUserFromUsername((String)username);
-            request.setAttribute("loginUser", loginUser);
+        Integer id = Integer.parseInt(request.getParameter("id"));
             
-            if (loginUser.getUserType() == 2) {
-                response.sendRedirect(request.getContextPath() + "/user/"); 
-                return;
-            }
-            sendPage(request, response, "/WEB-INF" + path);
+        Transaction trans = Transaction.getTransactionById(id);
+        HttpSession session = request.getSession(true);
+        String referer = request.getHeader("Referer");
+        
+        if (trans.getNumericStatus() != 0) {
+            session.setAttribute("err", "Cannot change status");
+            response.sendRedirect(request.getContextPath() + "/admin/tableOrder.jsp");
+            return;
         }
         
-//        sendPage(request, response, "/WEB-INF" + path);
+       boolean result = trans.changeStatus(2);
+        
+        if (result) {
+            session.setAttribute("scs", "Successfully change status");
+        } else {
+            session.setAttribute("err", "Error when trying to change status");
+        }
+            
+            
+        
+        response.sendRedirect(request.getContextPath() + "/admin/tableOrder.jsp");
     }
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
-
-	if (dispatcher == null)
-	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

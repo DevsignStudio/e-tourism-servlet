@@ -1,15 +1,13 @@
-package user;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package virtualServlet;
 
-import bean.User;
+import bean.Transaction;
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.text.ParseException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +17,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Lili Madiha
+ * @author Nizul Zaim
  */
-@WebServlet(urlPatterns = {"/admin/*"})
-public class AdminController extends HttpServlet {
+@WebServlet(name = "successPackageServlet", urlPatterns = {"/user/successPackage.jsp"})
+public class successPackageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,42 +34,36 @@ public class AdminController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String path =  request.getServletPath() + request.getPathInfo();
-        HttpSession ss = request.getSession(true);        
-                
-        String username = (String)ss.getAttribute("username");  
-        
-        if (username == null) {
-            response.sendRedirect(request.getContextPath() + "/login.jsp"); 
-        } else {
-            User loginUser = User.getUserFromUsername(username);
-            loginUser = User.getUserFromUsername((String)username);
-            request.setAttribute("loginUser", loginUser);
-            
-            if (loginUser.getUserType() == 2) {
-                response.sendRedirect(request.getContextPath() + "/user/"); 
-                return;
-            }
-            sendPage(request, response, "/WEB-INF" + path);
-        }
-        
-//        sendPage(request, response, "/WEB-INF" + path);
-    }
-    
-    void sendPage(HttpServletRequest req, HttpServletResponse res, String fileName) throws ServletException, IOException
-    {
-        // Get the dispatcher; it gets the main page to the user
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(fileName);
 
-	if (dispatcher == null)
-	{
-            System.out.println("There was no dispatcher");
-	    // No dispatcher means the html file could not be found.
-	    res.sendError(res.SC_NO_CONTENT);
-	}
-	else
-	    dispatcher.forward(req, res);
-    }   
+        String[] addOns = request.getParameterValues("addOns");
+        HttpSession ss = request.getSession(true);
+        Transaction transaction = (Transaction)ss.getAttribute("sessionTransaction");
+        transaction.setEventAt(request.getParameter("date"));
+        transaction.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+
+        if (addOns != null) {
+            for (int i = 0; i < addOns.length; i++) {
+                transaction.addNewAddOn(Integer.parseInt(addOns[i]));
+            }
+        }
+
+        boolean success = transaction.create();
+
+        HttpSession session = request.getSession(true);
+
+
+        if (success) {
+            session.setAttribute("scs", "Successfully Book New Package");
+        } else {
+            session.setAttribute("err", "Error when trying to Book New Package");
+        }
+        response.sendRedirect(request.getContextPath() + "/user/transactionHistory.jsp");
+
+
+
+    }
+
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
