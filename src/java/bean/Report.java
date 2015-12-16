@@ -59,4 +59,50 @@ public class Report {
         }
         return count;
     }
+    
+    public static int getTotalActivePackage() {
+        int count = 0;
+        for(int i = 0; i < allPackage.size(); i++) {
+            if (allPackage.get(i).getDisplay() == 1) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    public static int getTotalDeactivePackage() {
+        int count = 0;
+        for(int i = 0; i < allPackage.size(); i++) {
+            if (allPackage.get(i).getDisplay() == 0) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    public static int getTotalMaleClient() {
+        int count = 0;
+        for(int i = 0; i < allUser.size(); i++) {
+            if (allUser.get(i).getGender() == 1) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    public static int getTotalFemaleClient() {
+        int count = 0;
+        for(int i = 0; i < allUser.size(); i++) {
+            if (allUser.get(i).getGender() == 0) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    
 }

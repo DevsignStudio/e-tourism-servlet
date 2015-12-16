@@ -70,6 +70,23 @@ ArrayList<Package> pkgs = Package.allPackage();
                                 <th scope="row">Total Sales</th> 
                                 <td>MYR <%= Report.getTotalSales() %></td>
                             </tr> 
+                            <tr class="success"> 
+                                <th scope="row">Total Active Package</th> 
+                                <td><%= Report.getTotalActivePackage() %> package(s)</td>
+                            </tr> 
+                            <tr class="success"> 
+                                <th scope="row">Total Deactive Package</th> 
+                                <td><%= Report.getTotalDeactivePackage() %> package(s)</td>
+                            </tr> 
+                            <tr class="success"> 
+                                <th scope="row">Total User (Male)</th> 
+                                <td><%= Report.getTotalMaleClient() %> user(s)</td>
+                            </tr> 
+                            
+                            <tr class="success"> 
+                                <th scope="row">Total User (Female)</th> 
+                                <td><%= Report.getTotalFemaleClient() %> user(s)</td>
+                            </tr> 
                         </tbody> 
                     </table>
                     <h3>Users List</h3>
